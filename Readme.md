@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов»
 
 * Студент: [Анна Миронова](https://up.htmlacademy.ru/react/15/user/1439495).
-* Наставник: `Неизвестно`.
+* Наставник: [Юля Волкова](https://htmlacademy.ru/profile/julie_volkova).
 
 ---
 
