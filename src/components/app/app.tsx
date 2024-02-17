@@ -1,8 +1,12 @@
 import MainScreen from '../../pages/main-screen/main-screen';
 
-function App(): JSX.Element {
+type AppProps = {
+  rentOffersCount: number;
+}
+
+function App({rentOffersCount}: AppProps): JSX.Element {
   return (
-    <MainScreen />
+    <MainScreen rentOffersCount={rentOffersCount}/>
   );
 }
 
