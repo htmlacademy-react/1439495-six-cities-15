@@ -5,6 +5,7 @@ import LoginScreen from '../../pages/login-screen/login-screen.tsx';
 import FavoritesScreen from '../../pages/favorites-screen/favorites-screen.tsx';
 import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import { OFFER_CARD } from '../../mock/offer-card.ts';
+import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 
 type AppProps = {
   rentOffersCount: number;
@@ -18,6 +19,7 @@ function App({rentOffersCount}: AppProps): JSX.Element {
         <Route path={AppRoutes.Login} element={<LoginScreen />} />
         <Route path={AppRoutes.Favorites} element={<FavoritesScreen />} />
         <Route path={AppRoutes.Offer} element={<OfferScreen offerInfo={OFFER_CARD}/>} />
+        <Route path='*' element={<NotFoundScreen />} />
       </Routes>
     </BrowserRouter>
   );
