@@ -1,3 +1,5 @@
+import { Link } from 'react-router-dom';
+
 type Card = {
   id: number | string;
   title: string;
@@ -21,14 +23,14 @@ function PremiumBadgeForCard(): JSX.Element {
 }
 
 function Card({card, className = 'cities'}: CardProps): JSX.Element {
-  const {title, type, price, isPremium, previewImage} = card;
+  const {id, title, type, price, isPremium, previewImage} = card;
   return (
     <article className={`${className}__card place-card`}>
       {isPremium && <PremiumBadgeForCard />}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
-        <a href="#">
+        <Link to={`offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="260" height="200" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className="place-card__info">
         <div className="place-card__price-wrapper">
@@ -50,7 +52,7 @@ function Card({card, className = 'cities'}: CardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>
