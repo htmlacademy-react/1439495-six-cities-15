@@ -13,3 +13,10 @@ export const RatingNames: {[index: string]: string} = {
 export const Setting = {
   RentOffersCount: 312
 };
+
+export enum AppRoutes {
+  Main = '/',
+  Login = '/login',
+  Favorites = '/favorites',
+  Offer = '/offer/:id'
+}

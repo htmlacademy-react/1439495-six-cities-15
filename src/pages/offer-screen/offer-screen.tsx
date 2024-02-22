@@ -24,24 +24,32 @@ type OfferScreenProps = {
   offerInfo: Offer;
 }
 
+function ImageItem({image}: {image: string}): JSX.Element {
+  return (
+    <div className="offer__image-wrapper">
+      <img className="offer__image" src={image} alt="Photo studio" />
+    </div>
+  );
+}
+
 function ImagesList({images}: {images: string[]}): JSX.Element {
   return (
     <div className="offer__gallery-container container">
       <div className="offer__gallery">
-        {images.map((image) => (
-          `<div className="offer__image-wrapper">
-            <img className="offer__image" src="${image}" alt="Photo studio" />
-          </div>`
-        ))}
+        {images.map((image) => <ImageItem image={image} key={image} />)}
       </div>
     </div>
   );
 }
 
+function FeatureItem({feature}: {feature: string}): JSX.Element {
+  return (<li className="offer__inside-item">{feature}</li>);
+}
+
 function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
   return (
     <ul className="offer__inside-list">
-      {features.map((feature) => `<li className="offer__inside-item">${feature}</li>`)}
+      {features.map((feature) => <FeatureItem feature={feature} key={feature}/>)}
     </ul>
   );
 }
@@ -59,7 +67,7 @@ function OfferScreen({offerInfo}: OfferScreenProps): JSX.Element {
           <ImagesList images={images}/>
           <div className="offer__container container">
             <div className="offer__wrapper">
-              {isPremium && '<div className="offer__mark"><span>Premium</span></div>'}
+              {isPremium && <div className="offer__mark"><span>Premium</span></div>}
               <div className="offer__name-wrapper">
                 <h1 className="offer__name">
                   {title}
