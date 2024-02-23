@@ -3,7 +3,7 @@ import Header from '../../components/header/header.tsx';
 import Map from '../../components/map/map.tsx';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
-import { Cards } from '../../mock/cards.ts';
+import { cards } from '../../mock/cards.ts';
 import { Review } from '../../components/reviews-list/reviews-list.tsx';
 
 type Offer = {
@@ -131,7 +131,7 @@ function OfferScreen({offerInfo}: OfferScreenProps): JSX.Element {
           <section className="near-places places">
             <h2 className="near-places__title">Other places in the neighbourhood</h2>
             <div className="near-places__list places__list">
-              {Cards.map((card) => <Card card={card} className='near-places' key={card.id} />)}
+              {cards.map((card) => <Card card={card} className='near-places' key={card.id} />)}
             </div>
           </section>
         </div>

@@ -1,7 +1,7 @@
-import { Options } from '../../const.ts';
+import { OPTIONS } from '../../const.ts';
 
 type OptionItemProps = {
-  name: typeof Options[number];
+  name: typeof OPTIONS[number];
   isActive: boolean;
 }
 
@@ -14,7 +14,7 @@ function OptionItem({name, isActive}: OptionItemProps): JSX.Element {
 function SortOptions(): JSX.Element {
   return (
     <ul className="places__options places__options--custom places__options--opened">
-      {Options.map((name, index) => <OptionItem name={name} isActive={index === 0} key={name} />)}
+      {OPTIONS.map((name, index) => <OptionItem name={name} isActive={index === 0} key={name} />)}
     </ul>
   );
 }
