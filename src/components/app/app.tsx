@@ -7,6 +7,7 @@ import OfferScreen from '../../pages/offer-screen/offer-screen.tsx';
 import { OFFER_CARD } from '../../mock/offer-card.ts';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
+import ScrollToTop from '../scroll-to-top/scroll-to-top.tsx';
 
 type AppProps = {
   rentOffersCount: number;
@@ -15,6 +16,7 @@ type AppProps = {
 function App({rentOffersCount}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
+      <ScrollToTop />
       <Routes>
         <Route path={AppRoutes.Main} element={<MainScreen rentOffersCount={rentOffersCount}/>} />
         <Route path={AppRoutes.Login} element={<LoginScreen />} />
