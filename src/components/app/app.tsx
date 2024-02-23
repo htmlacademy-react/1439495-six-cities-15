@@ -8,6 +8,7 @@ import { OFFER_CARD } from '../../mock/offer-card.ts';
 import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import ScrollToTop from '../scroll-to-top/scroll-to-top.tsx';
+import Layout from '../layout/layout.tsx';
 
 type AppProps = {
   rentOffersCount: number;
@@ -18,17 +19,19 @@ function App({rentOffersCount}: AppProps): JSX.Element {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path={AppRoutes.Main} element={<MainScreen rentOffersCount={rentOffersCount}/>} />
-        <Route path={AppRoutes.Login} element={<LoginScreen />} />
-        <Route
-          path={AppRoutes.Favorites}
-          element={
-            <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-              <FavoritesScreen />
-            </PrivateRoute>
-          }
-        />
-        <Route path={AppRoutes.Offer} element={<OfferScreen offerInfo={OFFER_CARD}/>} />
+        <Route path={AppRoutes.Main} element={<Layout />}>
+          <Route index element={<MainScreen rentOffersCount={rentOffersCount}/>} />
+          <Route path={AppRoutes.Login} element={<LoginScreen />} />
+          <Route
+            path={AppRoutes.Favorites}
+            element={
+              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
+                <FavoritesScreen />
+              </PrivateRoute>
+            }
+          />
+          <Route path={AppRoutes.Offer} element={<OfferScreen offerInfo={OFFER_CARD}/>} />
+        </Route>
         <Route path='*' element={<NotFoundScreen />} />
       </Routes>
     </BrowserRouter>

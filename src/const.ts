@@ -14,12 +14,12 @@ export const Setting = {
   RentOffersCount: 312
 };
 
-export enum AppRoutes {
-  Main = '/',
-  Login = '/login',
-  Favorites = '/favorites',
-  Offer = '/offer/:id'
-}
+export const AppRoutes = {
+  Main: '/',
+  Login: '/login',
+  Favorites: '/favorites',
+  Offer: '/offer/:id'
+} as const;
 
 export enum AuthorizationStatus {
   Auth = 'AUTH',
