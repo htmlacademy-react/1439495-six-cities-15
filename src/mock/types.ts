@@ -18,6 +18,7 @@ export type TCard = {
   type: string;
   price: number;
   images: string[];
+  city: string;
   description: string;
   bedrooms: number;
   isPremium: boolean;

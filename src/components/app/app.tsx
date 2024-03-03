@@ -26,8 +26,8 @@ function App({rentOffersCount, cards}: AppProps): JSX.Element {
           <Route
             path={AppRoutes.Favorites}
             element={
-              <PrivateRoute authorizationStatus={AuthorizationStatus.NoAuth}>
-                <FavoritesScreen />
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
+                <FavoritesScreen cards={cards} />
               </PrivateRoute>
             }
           />
