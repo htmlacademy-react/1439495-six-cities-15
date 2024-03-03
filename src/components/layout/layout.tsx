@@ -2,7 +2,7 @@ import { Outlet, Link, useLocation } from 'react-router-dom';
 import Logo from '../logo/logo.tsx';
 import { AppRoutes } from '../../const.ts';
 
-function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean) {
+function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean): string {
   let pageClassName = 'page';
   if (isOfferPage || isFavoritePage) {
     return pageClassName;
@@ -19,7 +19,7 @@ function Layout(): JSX.Element {
   const {pathname} = useLocation();
   const isLoginPage = pathname === AppRoutes.Login;
   const isFavoritePage = pathname === AppRoutes.Favorites;
-  const isOfferPage = pathname === AppRoutes.Offer;
+  const isOfferPage = pathname.includes('offer');
 
   const mainClassName = getClassName(isLoginPage, isFavoritePage, isOfferPage);
 
