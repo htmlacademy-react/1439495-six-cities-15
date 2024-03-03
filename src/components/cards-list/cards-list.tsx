@@ -1,7 +1,11 @@
-import { cards } from '../../mock/cards.ts';
 import Card from '../../components/card/card.tsx';
+import { TCard } from '../../mock/types.ts';
 
-function CardsList(): JSX.Element {
+type CardsListProps = {
+  cards: TCard[];
+}
+
+function CardsList({cards}: CardsListProps): JSX.Element {
   return (
     <div className="cities__places-list places__list tabs__content">
       {cards.map((card) => <Card card={card} key={card.id} />)}
