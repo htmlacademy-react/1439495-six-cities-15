@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom';
 import { TCard } from '../../mock/types';
 
 type TFavoriteCardProps = {
@@ -5,7 +6,7 @@ type TFavoriteCardProps = {
 }
 
 function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
-  const {previewImage, price, type, title} = card;
+  const {previewImage, price, type, title, id} = card;
 
   return (
     <article className="favorites__card place-card">
@@ -13,9 +14,9 @@ function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
         <span>Premium</span>
       </div>
       <div className="favorites__image-wrapper place-card__image-wrapper">
-        <a href="#">
+        <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place image" />
-        </a>
+        </Link>
       </div>
       <div className="favorites__card-info place-card__info">
         <div className="place-card__price-wrapper">
@@ -37,7 +38,7 @@ function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
           </div>
         </div>
         <h2 className="place-card__name">
-          <a href="#">{title}</a>
+          <Link to={`/offer/${id}`}>{title}</Link>
         </h2>
         <p className="place-card__type">{type}</p>
       </div>

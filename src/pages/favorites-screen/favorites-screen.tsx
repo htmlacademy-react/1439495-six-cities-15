@@ -1,5 +1,7 @@
+import { Link } from 'react-router-dom';
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import { TCard } from '../../mock/types.ts';
+import { AppRoutes } from '../../const.ts';
 
 type TFavoritesScreenProps = {
   cards: TCard[];
@@ -29,9 +31,9 @@ function FavoritesScreen({cards}: TFavoritesScreenProps): JSX.Element {
               <li className="favorites__locations-items" key={city}>
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <a className="locations__item-link" href="#">
+                    <Link className="locations__item-link" to={AppRoutes.Main}>
                       <span>{city}</span>
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="favorites__places">
