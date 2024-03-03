@@ -1,16 +1,9 @@
 import { Link } from 'react-router-dom';
-
-type Card = {
-  id: number | string;
-  title: string;
-  type: string;
-  price: number;
-  isPremium: boolean;
-  previewImage: string;
-}
+import { TCard } from '../../mock/types';
 
 type CardProps = {
-  card: Card;
+  card: TCard;
+  mouseMoveHandler: (arg?: TCard) => void;
   className?: string;
 }
 
@@ -22,10 +15,19 @@ function PremiumBadgeForCard(): JSX.Element {
   );
 }
 
-function Card({card, className = 'cities'}: CardProps): JSX.Element {
+function Card({card, mouseMoveHandler, className = 'cities'}: CardProps): JSX.Element {
   const {id, title, type, price, isPremium, previewImage} = card;
+
+  const mouseEnterHandler = () => {
+    mouseMoveHandler(card);
+  };
+
+  const mouseLeaveHandler = () => {
+    mouseMoveHandler();
+  };
+
   return (
-    <article className={`${className}__card place-card`}>
+    <article className={`${className}__card place-card`} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
       {isPremium && <PremiumBadgeForCard />}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>

@@ -1,10 +1,10 @@
 import { useParams } from 'react-router-dom';
-import Card from '../../components/card/card.tsx';
 import Map from '../../components/map/map.tsx';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import { TCard } from '../../mock/types.ts';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
+import CardsList from '../../components/cards-list/cards-list.tsx';
 
 type OfferScreenProps = {
   cards: TCard[];
@@ -119,9 +119,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <div className="near-places__list places__list">
-            {cards.slice(0, 3).map((card) => <Card card={card} className='near-places' key={card.id} />)}
-          </div>
+          <CardsList cards={cards} className="near-places__list places__list" />
         </section>
       </div>
     </main>

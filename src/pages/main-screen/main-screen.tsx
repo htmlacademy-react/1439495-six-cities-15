@@ -33,7 +33,7 @@ function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
               </span>
               <SortOptions />
             </form>
-            <CardsList cards={cards} />
+            <CardsList cards={cards} className='cities__places-list places__list tabs__content' />
           </section>
           <div className="cities__right-section">
             <Map />
