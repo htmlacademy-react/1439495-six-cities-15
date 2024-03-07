@@ -36,7 +36,7 @@ function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
             <CardsList cards={cards} className='cities__places-list places__list tabs__content' />
           </section>
           <div className="cities__right-section">
-            <Map />
+            <Map cards={cards}/>
           </div>
         </div>
       </div>

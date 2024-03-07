@@ -114,7 +114,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
             </section>
           </div>
         </div>
-        <Map className="offer__map" />
+        <Map className="offer__map" cards={cards} />
       </section>
       <div className="container">
         <section className="near-places places">

@@ -12,6 +12,12 @@ export type TReview = {
   rating: number;
 }
 
+export type TLocation = {
+  latitude: number;
+  longitude: number;
+  zoom: number;
+}
+
 export type TCard = {
   id: string;
   title: string;
@@ -19,6 +25,7 @@ export type TCard = {
   price: number;
   images: string[];
   city: string;
+  location: TLocation;
   description: string;
   bedrooms: number;
   isPremium: boolean;
