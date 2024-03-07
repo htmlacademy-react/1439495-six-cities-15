@@ -3,14 +3,13 @@ import { TCard } from '../../mock/types.ts';
 
 type CardsListProps = {
   cards: TCard[];
-  className: string;
   onMouseHover: (arg?: TCard) => void;
 }
 
-function CardsList({cards, className, onMouseHover}: CardsListProps): JSX.Element {
+function CardsList({cards, onMouseHover}: CardsListProps): JSX.Element {
 
   return (
-    <div className={className}>
+    <div className="cities__places-list places__list tabs__content">
       {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} />)}
     </div>
   );

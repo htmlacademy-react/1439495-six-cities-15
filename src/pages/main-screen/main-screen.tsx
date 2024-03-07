@@ -40,7 +40,7 @@ function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
               </span>
               <SortOptions />
             </form>
-            <CardsList cards={cards} className='cities__places-list places__list tabs__content' onMouseHover={handleSelectActiveCard}/>
+            <CardsList cards={cards} onMouseHover={handleSelectActiveCard}/>
           </section>
           <div className="cities__right-section">
             <Map cards={cards} activeCard={activeCard}/>
