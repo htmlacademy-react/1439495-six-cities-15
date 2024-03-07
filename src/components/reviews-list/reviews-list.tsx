@@ -1,18 +1,6 @@
-type User = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-}
+import { TReview } from '../../mock/types';
 
-export type Review = {
-  id: string;
-  date: string;
-  user: User;
-  comment: string;
-  rating: number;
-}
-
-function ReviewItem({review}: {review: Review}): JSX.Element {
+function ReviewItem({review}: {review: TReview}): JSX.Element {
   const {date, user, comment} = review;
   return (
     <li className="reviews__item">
@@ -40,7 +28,7 @@ function ReviewItem({review}: {review: Review}): JSX.Element {
   );
 }
 
-function ReviewsList({reviews}: {reviews: Review[]}): JSX.Element {
+function ReviewsList({reviews}: {reviews: TReview[]}): JSX.Element {
   return (
     <ul className="reviews__list">
       {reviews.map((review) => <ReviewItem review={review} key={review.id}/>)}
