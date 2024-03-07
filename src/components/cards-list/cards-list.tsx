@@ -9,6 +9,7 @@ type CardsListProps = {
 
 function CardsList({cards, className}: CardsListProps): JSX.Element {
   const [activeCard, setActiveCard] = useState<TCard | null>();
+
   const onMouseHover = (card?: TCard) => {
     setActiveCard(card);
     return activeCard; //чтобы не ругался линтер =)
