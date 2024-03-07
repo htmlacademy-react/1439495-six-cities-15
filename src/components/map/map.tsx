@@ -2,12 +2,18 @@ import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map';
 import { TCard } from '../../mock/types';
 import 'leaflet/dist/leaflet.css';
-import { Marker, layerGroup } from 'leaflet';
+import { Icon, Marker, layerGroup } from 'leaflet';
 
 type MapProps = {
   className?: string;
   cards: TCard[];
 }
+
+const defaultIcon = new Icon({
+  iconUrl: 'img/pin.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13, 39]
+});
 
 function Map({className = 'cities__map', cards}: MapProps): JSX.Element {
   const mapRef = useRef(null);
@@ -21,7 +27,9 @@ function Map({className = 'cities__map', cards}: MapProps): JSX.Element {
           lat: card.location.latitude,
           lng: card.location.longitude
         });
-        marker.addTo(markerLayer);
+        marker
+          .setIcon(defaultIcon)
+          .addTo(markerLayer);
       });
 
       return () => {
