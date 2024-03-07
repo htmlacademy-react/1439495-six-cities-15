@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import CardsList from '../../components/cards-list/cards-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
@@ -10,6 +11,12 @@ type MainScreenProps = {
 }
 
 function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
+  const [activeCard, setActiveCard] = useState<TCard | null>();
+
+  const handleSelectActiveCard = (card?: TCard) => {
+    setActiveCard(card);
+  };
+
   return (
     <main className="page__main page__main--index">
       <h1 className="visually-hidden">Cities</h1>
@@ -33,10 +40,10 @@ function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
               </span>
               <SortOptions />
             </form>
-            <CardsList cards={cards} className='cities__places-list places__list tabs__content' />
+            <CardsList cards={cards} className='cities__places-list places__list tabs__content' onMouseHover={handleSelectActiveCard}/>
           </section>
           <div className="cities__right-section">
-            <Map cards={cards}/>
+            <Map cards={cards} activeCard={activeCard}/>
           </div>
         </div>
       </div>

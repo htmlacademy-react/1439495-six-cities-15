@@ -7,6 +7,7 @@ import { Icon, Marker, layerGroup } from 'leaflet';
 type MapProps = {
   className?: string;
   cards: TCard[];
+  activeCard?: TCard | null;
 }
 
 const defaultIcon = new Icon({
@@ -14,8 +15,13 @@ const defaultIcon = new Icon({
   iconSize: [27, 39],
   iconAnchor: [13, 39]
 });
+const currentIcon = new Icon({
+  iconUrl: 'img/pin-active.svg',
+  iconSize: [27, 39],
+  iconAnchor: [13, 39]
+});
 
-function Map({className = 'cities__map', cards}: MapProps): JSX.Element {
+function Map({className = 'cities__map', cards, activeCard}: MapProps): JSX.Element {
   const mapRef = useRef(null);
   const map = useMap(mapRef);
 
@@ -28,7 +34,9 @@ function Map({className = 'cities__map', cards}: MapProps): JSX.Element {
           lng: card.location.longitude
         });
         marker
-          .setIcon(defaultIcon)
+          .setIcon(
+            activeCard && activeCard.id === card.id ? currentIcon : defaultIcon
+          )
           .addTo(markerLayer);
       });
 
@@ -37,7 +45,7 @@ function Map({className = 'cities__map', cards}: MapProps): JSX.Element {
       };
     }
 
-  }, [map, cards]);
+  }, [map, cards, activeCard]);
 
   return (
     <section className={`${className} map`} ref={mapRef}></section>
