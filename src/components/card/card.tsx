@@ -3,7 +3,7 @@ import { TCard } from '../../mock/types';
 
 type CardProps = {
   card: TCard;
-  mouseMoveHandler: (arg?: TCard) => void;
+  onMouseHover: (arg?: TCard) => void;
   className?: string;
 }
 
@@ -15,19 +15,19 @@ function PremiumBadgeForCard(): JSX.Element {
   );
 }
 
-function Card({card, mouseMoveHandler, className = 'cities'}: CardProps): JSX.Element {
+function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Element {
   const {id, title, type, price, isPremium, previewImage} = card;
 
-  const mouseEnterHandler = () => {
-    mouseMoveHandler(card);
+  const handleMouseEnter = () => {
+    onMouseHover(card);
   };
 
-  const mouseLeaveHandler = () => {
-    mouseMoveHandler();
+  const handleMouseLeave = () => {
+    onMouseHover();
   };
 
   return (
-    <article className={`${className}__card place-card`} onMouseEnter={mouseEnterHandler} onMouseLeave={mouseLeaveHandler}>
+    <article className={`${className}__card place-card`} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave}>
       {isPremium && <PremiumBadgeForCard />}
       <div className={`${className}__image-wrapper place-card__image-wrapper`}>
         <Link to={`/offer/${id}`}>
