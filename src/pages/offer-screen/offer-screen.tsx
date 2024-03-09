@@ -49,6 +49,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
   }
 
   const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo;
+  const nearbyCards = cards.slice(0, 3);
 
   return (
     <main className="page__main page__main--offer">
@@ -114,12 +115,12 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
             </section>
           </div>
         </div>
-        <Map className="offer__map" cards={cards} activeCard={offerInfo} />
+        <Map className="offer__map" cards={[...nearbyCards, offerInfo]} activeCard={offerInfo} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OffersList cards={cards} />
+          <OffersList cards={nearbyCards} />
         </section>
       </div>
     </main>

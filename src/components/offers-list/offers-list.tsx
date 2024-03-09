@@ -5,10 +5,10 @@ type OffersListProps = {
   cards: TCard[];
 }
 function OffersList({cards}: OffersListProps): JSX.Element {
-  const shownCards = cards.slice(0, 3);
+
   return (
     <div className="near-places__list places__list">
-      {shownCards.map((card) => <Card card={card} className='near-places' key={card.id} />)}
+      {cards.map((card) => <Card card={card} className='near-places' key={card.id} />)}
     </div>
   );
 }
