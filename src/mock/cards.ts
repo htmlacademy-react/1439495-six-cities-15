@@ -9,6 +9,11 @@ export const cards: TCard[] = [
     isPremium: true,
     previewImage: 'img/apartment-01.jpg',
     city: 'Amsterdam',
+    location: {
+      latitude: 52.35514938496378,
+      longitude: 4.673877537499948,
+      zoom: 8
+    },
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
     bedrooms: 3,
@@ -36,6 +41,11 @@ export const cards: TCard[] = [
     isPremium: false,
     previewImage: 'img/room.jpg',
     city: 'Amsterdam',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.85309666406198,
+      zoom: 8
+    },
     images: ['img/room.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'An independent House, strategically located between Rembrand Square and National Opera, but where the bustle of the city comes to rest in this alley flowery and colorful.',
     bedrooms: 2,
@@ -51,6 +61,11 @@ export const cards: TCard[] = [
     isPremium: false,
     previewImage: 'img/apartment-02.jpg',
     city: 'Cologne',
+    location: {
+      latitude: 52.3609553943508,
+      longitude: 4.85309666406198,
+      zoom: 8
+    },
     images: ['img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
     bedrooms: 4,
@@ -89,6 +104,11 @@ export const cards: TCard[] = [
     isPremium: true,
     previewImage: 'img/apartment-03.jpg',
     city: 'Amsterdam',
+    location: {
+      latitude: 52.3909553943508,
+      longitude: 4.929309666406198,
+      zoom: 8
+    },
     images: ['img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
     bedrooms: 1,
@@ -116,6 +136,11 @@ export const cards: TCard[] = [
     isPremium: false,
     previewImage: 'img/studio-01.jpg',
     city: 'Cologne',
+    location: {
+      latitude: 52.3809553943508,
+      longitude: 4.939309666406198,
+      zoom: 8
+    },
     images: ['img/room.jpg', 'img/apartment-01.jpg', 'img/apartment-02.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],
     description: 'A quiet cozy and picturesque that hides behind a a river by the unique lightness of Amsterdam. The building is green and from 18th century.',
     bedrooms: 1,
