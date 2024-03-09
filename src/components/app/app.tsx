@@ -11,18 +11,24 @@ import Layout from '../layout/layout.tsx';
 import { TCard } from '../../mock/types.ts';
 
 type AppProps = {
-  rentOffersCount: number;
   cards: TCard[];
 }
 
-function App({rentOffersCount, cards}: AppProps): JSX.Element {
+function App({cards}: AppProps): JSX.Element {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
         <Route path={AppRoutes.Main} element={<Layout />}>
-          <Route index element={<MainScreen rentOffersCount={rentOffersCount} cards={cards}/>} />
-          <Route path={AppRoutes.Login} element={<LoginScreen />} />
+          <Route index element={<MainScreen cards={cards}/>} />
+          <Route
+            path={AppRoutes.Login}
+            element={
+              <PrivateRoute authorizationStatus={AuthorizationStatus.Auth} isReverse>
+                <LoginScreen />
+              </PrivateRoute>
+            }
+          />
           <Route
             path={AppRoutes.Favorites}
             element={

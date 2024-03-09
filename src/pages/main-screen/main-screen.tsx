@@ -4,13 +4,15 @@ import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
 import SortOptions from '../../components/sort-options/sort-options.tsx';
 import { TCard } from '../../mock/types.ts';
+import { CITIES } from '../../const.ts';
+
+const ACTIVE_CITY: typeof CITIES[number] = CITIES[3];
 
 type MainScreenProps = {
-  rentOffersCount: number;
   cards: TCard[];
 }
 
-function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
+function MainScreen({cards}: MainScreenProps): JSX.Element {
   const [activeCard, setActiveCard] = useState<TCard | null>();
 
   const handleSelectActiveCard = (card?: TCard) => {
@@ -22,14 +24,14 @@ function MainScreen({rentOffersCount, cards}: MainScreenProps): JSX.Element {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <CitiesList />
+          <CitiesList activeCity={ACTIVE_CITY} />
         </section>
       </div>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{rentOffersCount} places to stay in Amsterdam</b>
+            <b className="places__found">{cards.length} places to stay in {ACTIVE_CITY}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
