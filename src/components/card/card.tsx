@@ -16,7 +16,7 @@ function PremiumBadgeForCard(): JSX.Element {
 }
 
 function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Element {
-  const {id, title, type, price, isPremium, previewImage} = card;
+  const {id, title, type, price, isPremium, previewImage, rating} = card;
 
   const handleMouseEnter = () => {
     if (onMouseHover) {
@@ -53,7 +53,7 @@ function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Elemen
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '80%'}}></span>
+            <span style={{width: `${rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

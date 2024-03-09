@@ -6,7 +6,7 @@ type TFavoriteCardProps = {
 }
 
 function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
-  const {previewImage, price, type, title, id} = card;
+  const {previewImage, price, type, title, id, rating} = card;
 
   return (
     <article className="favorites__card place-card">
@@ -33,7 +33,7 @@ function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
-            <span style={{width: '100%'}}></span>
+            <span style={{width: `${rating * 20}%`}}></span>
             <span className="visually-hidden">Rating</span>
           </div>
         </div>

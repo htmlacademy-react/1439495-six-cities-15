@@ -48,7 +48,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments} = offerInfo;
+  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo;
 
   return (
     <main className="page__main page__main--offer">
@@ -70,10 +70,10 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: '80%'}}></span>
+                <span style={{width: `${rating * 20}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">4.8</span>
+              <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">{type}</li>

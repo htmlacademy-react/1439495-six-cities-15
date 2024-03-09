@@ -29,6 +29,7 @@ export type TCard = {
   description: string;
   bedrooms: number;
   isPremium: boolean;
+  rating: number;
   previewImage: string;
   goods: string[];
   maxAdults: number;
