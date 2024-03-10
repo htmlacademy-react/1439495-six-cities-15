@@ -4,7 +4,7 @@ import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import { TCard } from '../../mock/types.ts';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
-import OffersList from '../../components/offers-list/offers-list.tsx';
+import CardsList from '../../components/cards-list/cards-list.tsx';
 
 type OfferScreenProps = {
   cards: TCard[];
@@ -120,7 +120,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OffersList cards={nearbyCards} />
+          <CardsList className='near-places__list places__list' cards={nearbyCards} />
         </section>
       </div>
     </main>
