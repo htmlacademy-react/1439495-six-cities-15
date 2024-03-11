@@ -49,7 +49,9 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
   }
 
   const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo;
-  const nearbyCards = cards.slice(0, 3);
+
+  const cardsWithoutCurrentOffer = cards.filter((offer) => offer.id !== offerInfo.id);
+  const nearbyCards = cardsWithoutCurrentOffer.slice(0, 3);
 
   return (
     <main className="page__main page__main--offer">
