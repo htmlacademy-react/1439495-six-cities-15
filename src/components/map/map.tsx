@@ -7,7 +7,7 @@ import { Icon, Marker, layerGroup } from 'leaflet';
 type MapProps = {
   className?: string;
   cards: TCard[];
-  activeCard?: TCard | null;
+  activeCard: TCard | null;
 }
 
 const defaultIcon = new Icon({
