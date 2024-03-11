@@ -19,7 +19,7 @@ function App({cards}: AppProps): JSX.Element {
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route path={AppRoutes.Main} element={<Layout />}>
+        <Route path={AppRoutes.Main} element={<Layout authorizationStatus={AuthorizationStatus.Auth} />}>
           <Route index element={<MainScreen cards={cards}/>} />
           <Route
             path={AppRoutes.Login}
