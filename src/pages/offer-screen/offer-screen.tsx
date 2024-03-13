@@ -4,7 +4,7 @@ import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import { TCard } from '../../mock/types.ts';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
-import OffersList from '../../components/offers-list/offers-list.tsx';
+import CardsList from '../../components/cards-list/cards-list.tsx';
 
 type OfferScreenProps = {
   cards: TCard[];
@@ -48,7 +48,10 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments} = offerInfo;
+  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo;
+
+  const cardsWithoutCurrentOffer = cards.filter((offer) => offer.id !== offerInfo.id);
+  const nearbyCards = cardsWithoutCurrentOffer.slice(0, 3);
 
   return (
     <main className="page__main page__main--offer">
@@ -70,10 +73,10 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
-                <span style={{width: '80%'}}></span>
+                <span style={{width: `${Math.round(rating) * 20}%`}}></span>
                 <span className="visually-hidden">Rating</span>
               </div>
-              <span className="offer__rating-value rating__value">4.8</span>
+              <span className="offer__rating-value rating__value">{rating}</span>
             </div>
             <ul className="offer__features">
               <li className="offer__feature offer__feature--entire">{type}</li>
@@ -114,12 +117,12 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
             </section>
           </div>
         </div>
-        <Map className="offer__map" cards={cards} activeCard={offerInfo} />
+        <Map className="offer__map" cards={[...nearbyCards, offerInfo]} activeCard={offerInfo} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <OffersList cards={cards} />
+          <CardsList className='near-places__list places__list' cards={nearbyCards} />
         </section>
       </div>
     </main>

@@ -42,7 +42,7 @@ function MainScreen({cards}: MainScreenProps): JSX.Element {
               </span>
               <SortOptions />
             </form>
-            <CardsList cards={cards} onMouseHover={handleSelectActiveCard}/>
+            <CardsList className='cities__places-list places__list tabs__content' cards={cards} onMouseHover={handleSelectActiveCard}/>
           </section>
           <div className="cities__right-section">
             <Map cards={cards} activeCard={activeCard}/>

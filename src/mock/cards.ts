@@ -7,6 +7,7 @@ export const cards: TCard[] = [
     type: 'Apartment',
     price: 120,
     isPremium: true,
+    rating: 2.9,
     previewImage: 'img/apartment-01.jpg',
     city: 'Amsterdam',
     location: {
@@ -39,6 +40,7 @@ export const cards: TCard[] = [
     type: 'Room',
     price: 80,
     isPremium: false,
+    rating: 3.6,
     previewImage: 'img/room.jpg',
     city: 'Amsterdam',
     location: {
@@ -59,6 +61,7 @@ export const cards: TCard[] = [
     type: 'Apartment',
     price: 132,
     isPremium: false,
+    rating: 4.8,
     previewImage: 'img/apartment-02.jpg',
     city: 'Cologne',
     location: {
@@ -102,6 +105,7 @@ export const cards: TCard[] = [
     type: 'Apartment',
     price: 180,
     isPremium: true,
+    rating: 3.2,
     previewImage: 'img/apartment-03.jpg',
     city: 'Amsterdam',
     location: {
@@ -134,6 +138,7 @@ export const cards: TCard[] = [
     type: 'Room',
     price: 80,
     isPremium: false,
+    rating: 2.7,
     previewImage: 'img/studio-01.jpg',
     city: 'Cologne',
     location: {
