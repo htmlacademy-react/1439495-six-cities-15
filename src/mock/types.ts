@@ -1,3 +1,5 @@
+import { CITIES } from '../const.ts';
+
 export type TUser = {
   name: string;
   avatarUrl: string;
@@ -29,7 +31,7 @@ export type TCard = {
   type: string;
   price: number;
   images: string[];
-  city: TCity;
+  city: typeof CITIES[number];
   location: TLocation;
   description: string;
   bedrooms: number;

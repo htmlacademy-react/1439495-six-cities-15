@@ -705,7 +705,7 @@ export const cards: TCard[] = [
       longitude: 10.022654000000001,
       zoom: 16
     },
-    isFavorite: false,
+    isFavorite: true,
     isPremium: true,
     rating: 1.2,
     images: ['img/room.jpg', 'img/apartment-03.jpg', 'img/studio-01.jpg'],

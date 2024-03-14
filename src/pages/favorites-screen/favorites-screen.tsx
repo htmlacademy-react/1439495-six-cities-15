@@ -12,11 +12,12 @@ function FavoritesScreen(): JSX.Element {
 
   const cards = useAppSelector((state) => state.cards);
 
-  const groupedByCity = cards.reduce((result: TGroupedByCity, card) => {
-    if (result[card.city]) {
-      result[card.city].push(card);
+  const favoriteCards = cards.filter((card) => card.isFavorite);
+  const groupedByCity = favoriteCards.reduce((result: TGroupedByCity, card) => {
+    if (result[card.city.name]) {
+      result[card.city.name].push(card);
     } else {
-      result[card.city] = [card];
+      result[card.city.name] = [card];
     }
     return result;
   }, {});
