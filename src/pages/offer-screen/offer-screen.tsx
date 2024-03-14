@@ -2,13 +2,9 @@ import { useParams } from 'react-router-dom';
 import Map from '../../components/map/map.tsx';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
-import { TCard } from '../../mock/types.ts';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import CardsList from '../../components/cards-list/cards-list.tsx';
-
-type OfferScreenProps = {
-  cards: TCard[];
-}
+import { useAppSelector } from '../../hooks/store-hooks.ts';
 
 function ImageItem({image}: {image: string}): JSX.Element {
   return (
@@ -40,8 +36,11 @@ function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
   );
 }
 
-function OfferScreen({cards}: OfferScreenProps): JSX.Element {
+function OfferScreen(): JSX.Element {
   const { id } = useParams();
+  const cards = useAppSelector((state) => state.cards);
+  const city = useAppSelector((state) => state.city);
+
   const offerInfo = cards.find((item) => item.id === id);
 
   if (typeof offerInfo === 'undefined') {
@@ -50,7 +49,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
 
   const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo;
 
-  const cardsWithoutCurrentOffer = cards.filter((offer) => offer.id !== offerInfo.id);
+  const cardsWithoutCurrentOffer = cards.filter((offer) => offer.city.name === city.name).filter((offer) => offer.id !== offerInfo.id);
   const nearbyCards = cardsWithoutCurrentOffer.slice(0, 3);
 
   return (
@@ -117,7 +116,7 @@ function OfferScreen({cards}: OfferScreenProps): JSX.Element {
             </section>
           </div>
         </div>
-        <Map className="offer__map" cards={[...nearbyCards, offerInfo]} activeCard={offerInfo} />
+        <Map className="offer__map" cards={[...nearbyCards, offerInfo]} activeCard={offerInfo} city={city} />
       </section>
       <div className="container">
         <section className="near-places places">

@@ -1,19 +1,29 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import CardsList from '../../components/cards-list/cards-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
 import SortOptions from '../../components/sort-options/sort-options.tsx';
 import { TCard } from '../../mock/types.ts';
-import { CITIES } from '../../const.ts';
+import { useAppSelector } from '../../hooks/store-hooks.ts';
+import { useDispatch } from 'react-redux';
+import { getCards } from '../../store/action.ts';
 
-const ACTIVE_CITY: typeof CITIES[number] = CITIES[3];
+function MainScreen(): JSX.Element {
+  const cards = useAppSelector((state) => state.cards);
+  const city = useAppSelector((state) => state.city);
 
-type MainScreenProps = {
-  cards: TCard[];
-}
-
-function MainScreen({cards}: MainScreenProps): JSX.Element {
   const [activeCard, setActiveCard] = useState<TCard | null>();
+  const [cardsInActiveCity, setCardsInActiveCity] = useState<TCard[]>([]);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(getCards());
+  }, []);
+
+  useEffect(() => {
+    setCardsInActiveCity(cards.filter((card) => card.city.name === city.name));
+  }, [cards, city]);
 
   const handleSelectActiveCard = (card?: TCard) => {
     setActiveCard(card);
@@ -24,14 +34,14 @@ function MainScreen({cards}: MainScreenProps): JSX.Element {
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">
-          <CitiesList activeCity={ACTIVE_CITY} />
+          <CitiesList activeCity={city.name} />
         </section>
       </div>
       <div className="cities">
         <div className="cities__places-container container">
           <section className="cities__places places">
             <h2 className="visually-hidden">Places</h2>
-            <b className="places__found">{cards.length} places to stay in {ACTIVE_CITY}</b>
+            <b className="places__found">{cardsInActiveCity.length} places to stay in {city.name}</b>
             <form className="places__sorting" action="#" method="get">
               <span className="places__sorting-caption">Sort by</span>
               <span className="places__sorting-type" tabIndex={0}>
@@ -42,10 +52,10 @@ function MainScreen({cards}: MainScreenProps): JSX.Element {
               </span>
               <SortOptions />
             </form>
-            <CardsList className='cities__places-list places__list tabs__content' cards={cards} onMouseHover={handleSelectActiveCard}/>
+            <CardsList className='cities__places-list places__list tabs__content' cards={cardsInActiveCity} onMouseHover={handleSelectActiveCard}/>
           </section>
           <div className="cities__right-section">
-            <Map cards={cards} activeCard={activeCard}/>
+            <Map cards={cardsInActiveCity} activeCard={activeCard} city={city} />
           </div>
         </div>
       </div>

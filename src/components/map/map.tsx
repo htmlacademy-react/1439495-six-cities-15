@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map';
-import { TCard } from '../../mock/types';
+import { TCard, TCity } from '../../mock/types';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker, layerGroup } from 'leaflet';
 
@@ -8,6 +8,7 @@ type MapProps = {
   className?: string;
   cards: TCard[];
   activeCard?: TCard | null;
+  city: TCity;
 }
 
 const defaultIcon = new Icon({
@@ -21,13 +22,14 @@ const currentIcon = new Icon({
   iconAnchor: [13, 39]
 });
 
-function Map({className = 'cities__map', cards, activeCard}: MapProps): JSX.Element {
+function Map({className = 'cities__map', cards, activeCard, city}: MapProps): JSX.Element {
   const mapRef = useRef(null);
-  const map = useMap(mapRef);
+  const map = useMap(mapRef, city);
 
   useEffect(() => {
     if (map) {
       const markerLayer = layerGroup().addTo(map);
+      map.setView([city.location.latitude, city.location.longitude], city.location.zoom);
       cards.forEach((card) => {
         const marker = new Marker({
           lat: card.location.latitude,
@@ -45,7 +47,7 @@ function Map({className = 'cities__map', cards, activeCard}: MapProps): JSX.Elem
       };
     }
 
-  }, [map, cards, activeCard]);
+  }, [map, cards, activeCard, city]);
 
   return (
     <section className={`${className} map`} ref={mapRef}></section>

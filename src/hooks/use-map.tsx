@@ -1,17 +1,9 @@
 import { useState, useRef, MutableRefObject, useEffect } from 'react';
 import { Map, TileLayer } from 'leaflet';
 import { MAP_ATTRIBUTION, MAP_URL } from '../const';
+import { TCity } from '../mock/types';
 
-const city = {
-  name: 'Amsterdam',
-  location: {
-    latitude: 52.35514938496378,
-    longitude: 4.673877537499948,
-    zoom: 10
-  }
-};
-
-function useMap(mapRef: MutableRefObject<HTMLElement | null>): Map | null {
+function useMap(mapRef: MutableRefObject<HTMLElement | null>, city: TCity): Map | null {
   const [map, setMap] = useState<Map | null>(null);
   const isRenderedRef = useRef<boolean>(false);
 
@@ -37,7 +29,7 @@ function useMap(mapRef: MutableRefObject<HTMLElement | null>): Map | null {
       setMap(mapInstance);
       isRenderedRef.current = true;
     }
-  }, [mapRef]);
+  }, [mapRef, city]);
 
   return map;
 }

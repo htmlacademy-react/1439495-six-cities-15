@@ -2,15 +2,15 @@ import { Link } from 'react-router-dom';
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import { TCard } from '../../mock/types.ts';
 import { AppRoutes } from '../../const.ts';
+import { useAppSelector } from '../../hooks/store-hooks.ts';
 
-type TFavoritesScreenProps = {
-  cards: TCard[];
-}
 type TGroupedByCity = {
   [index: string]: TCard[];
 }
 
-function FavoritesScreen({cards}: TFavoritesScreenProps): JSX.Element {
+function FavoritesScreen(): JSX.Element {
+
+  const cards = useAppSelector((state) => state.cards);
 
   const groupedByCity = cards.reduce((result: TGroupedByCity, card) => {
     if (result[card.city]) {

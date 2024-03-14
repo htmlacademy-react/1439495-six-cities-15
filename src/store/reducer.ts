@@ -4,13 +4,13 @@ import { changeCity, getCards } from './action';
 import { CITIES } from '../const.ts';
 import { TCard } from '../mock/types.ts';
 
-type initialStateType = {
+export type StateType = {
   city: typeof CITIES[number];
   cards: TCard[];
 }
 
-const initialState: initialStateType = {
-  city: 'Amsterdam',
+const initialState: StateType = {
+  city: CITIES[0],
   cards: []
 };
 

@@ -8,19 +8,14 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import ScrollToTop from '../scroll-to-top/scroll-to-top.tsx';
 import Layout from '../layout/layout.tsx';
-import { TCard } from '../../mock/types.ts';
 
-type AppProps = {
-  cards: TCard[];
-}
-
-function App({cards}: AppProps): JSX.Element {
+function App(): JSX.Element {
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
         <Route path={AppRoutes.Main} element={<Layout authorizationStatus={AuthorizationStatus.Auth} />}>
-          <Route index element={<MainScreen cards={cards}/>} />
+          <Route index element={<MainScreen />} />
           <Route
             path={AppRoutes.Login}
             element={
@@ -33,11 +28,11 @@ function App({cards}: AppProps): JSX.Element {
             path={AppRoutes.Favorites}
             element={
               <PrivateRoute authorizationStatus={AuthorizationStatus.Auth}>
-                <FavoritesScreen cards={cards} />
+                <FavoritesScreen />
               </PrivateRoute>
             }
           />
-          <Route path={AppRoutes.Offer} element={<OfferScreen cards={cards} />} />
+          <Route path={AppRoutes.Offer} element={<OfferScreen />} />
         </Route>
         <Route path='*' element={<NotFoundScreen />} />
       </Routes>
