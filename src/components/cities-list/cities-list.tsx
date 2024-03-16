@@ -1,7 +1,7 @@
 import { MouseEventHandler } from 'react';
-import { useDispatch } from 'react-redux';
 import { CITIES } from '../../const.ts';
 import { changeCity } from '../../store/action.ts';
+import { useAppDispatch } from '../../hooks/store-hooks.ts';
 
 type CityItemProps = {
   city: string;
@@ -24,7 +24,7 @@ function CityItem({city, activeCity, onCityClick}: CityItemProps): JSX.Element {
 }
 
 function CitiesList({activeCity}: CitiesListProps): JSX.Element {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   const handleCityClick: MouseEventHandler<HTMLElement> = (evt) => {
     const span = evt.target as HTMLElement;

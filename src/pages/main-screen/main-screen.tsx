@@ -4,8 +4,7 @@ import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
 import SortOptions from '../../components/sort-options/sort-options.tsx';
 import { TCard } from '../../mock/types.ts';
-import { useAppSelector } from '../../hooks/store-hooks.ts';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
 import { getCards } from '../../store/action.ts';
 
 function MainScreen(): JSX.Element {
@@ -15,11 +14,11 @@ function MainScreen(): JSX.Element {
   const [activeCard, setActiveCard] = useState<TCard | null>();
   const [cardsInActiveCity, setCardsInActiveCity] = useState<TCard[]>([]);
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(getCards());
-  }, []);
+  }, [dispatch]);
 
   useEffect(() => {
     setCardsInActiveCity(cards.filter((card) => card.city.name === city.name));

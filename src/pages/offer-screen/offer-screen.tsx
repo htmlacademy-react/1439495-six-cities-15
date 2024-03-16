@@ -51,7 +51,7 @@ function OfferScreen(): JSX.Element {
     if (offerInfo) {
       setNearbyCards(cards.filter((card) => card.city.name === offerInfo.city.name));
     }
-  }, []);
+  }, [cards, offerInfo]);
 
   if (typeof offerInfo === 'undefined') {
     return <NotFoundScreen />;

@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { CITIES } from '../const.ts';
 
-export const changeCity = createAction<{city: typeof CITIES[number]}>('changeCity');
+export const changeCity = createAction<{city: typeof CITIES[number]}>('city/changeCity');
 
-export const getCards = createAction('getCards');
+export const getCards = createAction('cards/getCards');
