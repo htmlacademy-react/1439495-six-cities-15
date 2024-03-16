@@ -2,21 +2,22 @@ import { Link } from 'react-router-dom';
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import { TCard } from '../../mock/types.ts';
 import { AppRoutes } from '../../const.ts';
+import { useAppSelector } from '../../hooks/store-hooks.ts';
 
-type TFavoritesScreenProps = {
-  cards: TCard[];
-}
 type TGroupedByCity = {
   [index: string]: TCard[];
 }
 
-function FavoritesScreen({cards}: TFavoritesScreenProps): JSX.Element {
+function FavoritesScreen(): JSX.Element {
 
-  const groupedByCity = cards.reduce((result: TGroupedByCity, card) => {
-    if (result[card.city]) {
-      result[card.city].push(card);
+  const cards = useAppSelector((state) => state.cards);
+
+  const favoriteCards = cards.filter((card) => card.isFavorite);
+  const groupedByCity = favoriteCards.reduce((result: TGroupedByCity, card) => {
+    if (result[card.city.name]) {
+      result[card.city.name].push(card);
     } else {
-      result[card.city] = [card];
+      result[card.city.name] = [card];
     }
     return result;
   }, {});
