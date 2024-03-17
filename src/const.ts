@@ -49,10 +49,18 @@ export const CITIES = [
   }
 ] as const;
 
-export const OPTIONS = ['Popular', 'Price: low to high', 'Price: high to low', 'Top rated first'] as const;
-
 export const MAP_URL = 'https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png';
 export const MAP_ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>';
+
+type ValueOf<T> = T[keyof T];
+export type TSortOptions = ValueOf<typeof SortingOptions>;
+
+export const SortingOptions = {
+  POPULAR: 'Popular',
+  PRICE_LOW_TO_HIGH: 'Price: low to high',
+  PRICE_HIGH_TO_LOW: 'Price: high to low',
+  RATING: 'Top rated first'
+} as const;
 
 export const CommentLength = {
   MIN: 50,

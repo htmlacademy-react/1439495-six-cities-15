@@ -1,20 +1,32 @@
-import { OPTIONS } from '../../const.ts';
+import { SortingOptions, TSortOptions } from '../../const.ts';
+import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
+import { changeCardsSort } from '../../store/action.ts';
 
 type OptionItemProps = {
-  name: typeof OPTIONS[number];
-  isActive: boolean;
+  name: TSortOptions;
 }
 
-function OptionItem({name, isActive}: OptionItemProps): JSX.Element {
+type SortOptionsProps = {
+  isOpenForm: boolean;
+}
+
+function OptionItem({name}: OptionItemProps): JSX.Element {
+  const activeSort = useAppSelector((state) => state.sortOption);
+  const dispatch = useAppDispatch();
+
+  const handleSortClick = () => {
+    dispatch(changeCardsSort({option: name}));
+  };
+
   return (
-    <li className={`places__option ${isActive && 'places__option--active'}`} tabIndex={0}>{name}</li>
+    <li className={`places__option ${activeSort === name && 'places__option--active'}`} tabIndex={0} onClick={handleSortClick}>{name}</li>
   );
 }
 
-function SortOptions(): JSX.Element {
+function SortOptions({isOpenForm}: SortOptionsProps): JSX.Element {
   return (
-    <ul className="places__options places__options--custom places__options--opened">
-      {OPTIONS.map((name, index) => <OptionItem name={name} isActive={index === 0} key={name} />)}
+    <ul className={`places__options places__options--custom ${isOpenForm && 'places__options--opened'}`}>
+      {Object.values(SortingOptions).map((name) => <OptionItem name={name} key={name} />)}
     </ul>
   );
 }
