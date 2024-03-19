@@ -3,6 +3,7 @@ import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import { TCard } from '../../mock/types.ts';
 import { AppRoutes } from '../../const.ts';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
+import FavoritesEmpty from './favorites-empty.tsx';
 
 type TGroupedByCity = {
   [index: string]: TCard[];
@@ -21,6 +22,10 @@ function FavoritesScreen(): JSX.Element {
     }
     return result;
   }, {});
+
+  if (favoriteCards.length === 0) {
+    return <FavoritesEmpty />;
+  }
 
   return (
     <main className="page__main page__main--favorites">
