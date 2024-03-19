@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom';
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import { TCard } from '../../mock/types.ts';
-import { AppRoutes } from '../../const.ts';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import FavoritesEmpty from './favorites-empty.tsx';
+import CityItem from '../../components/city-item/city-item.tsx';
 
 type TGroupedByCity = {
   [index: string]: TCard[];
@@ -37,9 +36,7 @@ function FavoritesScreen(): JSX.Element {
               <li className="favorites__locations-items" key={city}>
                 <div className="favorites__locations locations locations--current">
                   <div className="locations__item">
-                    <Link className="locations__item-link" to={AppRoutes.Main}>
-                      <span>{city}</span>
-                    </Link>
+                    <CityItem city={city} />
                   </div>
                 </div>
                 <div className="favorites__places">

@@ -3,8 +3,7 @@ import CardsList from '../../components/cards-list/cards-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
 import { TCard } from '../../mock/types.ts';
-import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
-import { getCards } from '../../store/action.ts';
+import { useAppSelector } from '../../hooks/store-hooks.ts';
 import SortForm from '../../components/sort-form/sort-form.tsx';
 import { SortingOptions } from '../../const.ts';
 import NoCardsInCity from './no-cards-in-city.tsx';
@@ -23,12 +22,6 @@ function MainScreen(): JSX.Element {
 
   const [activeCard, setActiveCard] = useState<TCard | null>();
   const [cardsInActiveCity, setCardsInActiveCity] = useState<TCard[]>([]);
-
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(getCards());
-  }, [dispatch]);
 
   useEffect(() => {
     setCardsInActiveCity(cards.filter((card) => card.city.name === city.name));
