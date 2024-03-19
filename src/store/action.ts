@@ -5,4 +5,4 @@ export const changeCity = createAction<{city: typeof CITIES[number]}>('city/chan
 
 export const getCards = createAction('cards/getCards');
 
-export const changeCardsSort = createAction<{option: TSortOptions}>('cards/changeCardsSort');
+export const changeActiveSort = createAction<{option: TSortOptions}>('cards/changeCardsSort');

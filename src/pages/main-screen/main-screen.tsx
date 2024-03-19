@@ -8,7 +8,7 @@ import { getCards } from '../../store/action.ts';
 import SortForm from '../../components/sort-form/sort-form.tsx';
 import { SortingOptions } from '../../const.ts';
 
-const sort = {
+const sortBy = {
   [SortingOptions.POPULAR]: (cards: TCard[]) => cards,
   [SortingOptions.PRICE_LOW_TO_HIGH]: (cards: TCard[]) => cards.sort((firstCard, secondCard) => firstCard.price - secondCard.price),
   [SortingOptions.PRICE_HIGH_TO_LOW]: (cards: TCard[]) => cards.sort((firstCard, secondCard) => secondCard.price - firstCard.price),
@@ -51,7 +51,7 @@ function MainScreen(): JSX.Element {
             <h2 className="visually-hidden">Places</h2>
             <b className="places__found">{cardsInActiveCity.length} places to stay in {city.name}</b>
             <SortForm />
-            <CardsList className='cities__places-list places__list tabs__content' cards={sort[activeSort]([...cardsInActiveCity])} onMouseHover={handleSelectActiveCard}/>
+            <CardsList className='cities__places-list places__list tabs__content' cards={sortBy[activeSort]([...cardsInActiveCity])} onMouseHover={handleSelectActiveCard}/>
           </section>
           <div className="cities__right-section">
             <Map cards={cardsInActiveCity} activeCard={activeCard} city={city} />

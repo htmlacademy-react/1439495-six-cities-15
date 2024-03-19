@@ -1,6 +1,6 @@
 import { createReducer } from '@reduxjs/toolkit';
 import { cards } from '../mock/cards';
-import { changeCardsSort, changeCity, getCards } from './action';
+import { changeActiveSort, changeCity, getCards } from './action';
 import { CITIES, SortingOptions, TSortOptions } from '../const.ts';
 import { TCard } from '../mock/types.ts';
 
@@ -24,7 +24,7 @@ const reducer = createReducer(initialState, (builder) => {
     .addCase(getCards, (state) => {
       state.cards = cards;
     })
-    .addCase(changeCardsSort, (state, action) => {
+    .addCase(changeActiveSort, (state, action) => {
       state.sortOption = action.payload.option;
     });
 });
