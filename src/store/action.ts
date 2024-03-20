@@ -7,3 +7,5 @@ export const changeCity = createAction<{city: typeof CITIES[number]}>('city/chan
 export const getCards = createAction<{cards: TCard[]}>('cards/getCards');
 
 export const changeActiveSort = createAction<{option: TSortOptions}>('cards/changeCardsSort');
+
+export const setCardsLoadingStatus = createAction<boolean>('cards/setLoadingStatus');

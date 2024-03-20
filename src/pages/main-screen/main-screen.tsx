@@ -16,7 +16,7 @@ const sortBy = {
 };
 
 function MainScreen(): JSX.Element {
-  const cards = useAppSelector((state) => state.cards);
+  const cards = useAppSelector((state) => state.cards.cards);
   const city = useAppSelector((state) => state.city);
   const activeSort = useAppSelector((state) => state.sortOption);
 
