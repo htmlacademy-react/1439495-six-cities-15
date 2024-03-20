@@ -25,7 +25,7 @@ export type TCity = {
   location: TLocation;
 }
 
-export type TCard = {
+export type TOffer = {
   id: string;
   title: string;
   type: string;
@@ -42,4 +42,7 @@ export type TCard = {
   goods: string[];
   maxAdults: number;
   comments: TReview[];
+  host: TUser;
 }
+
+export type TCard = Omit<TOffer, 'images' | 'description' | 'bedrooms' | 'goods' | 'maxAdults' | 'comments' | 'host'>

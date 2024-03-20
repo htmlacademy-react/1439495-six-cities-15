@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import useMap from '../../hooks/use-map';
-import { TCard, TCity } from '../../mock/types';
+import { TCard, TCity } from '../../types/types';
 import 'leaflet/dist/leaflet.css';
 import { Icon, Marker, layerGroup } from 'leaflet';
 

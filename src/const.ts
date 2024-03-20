@@ -87,3 +87,7 @@ export enum AuthorizationStatus {
   NoAuth = 'NO_AUTH',
   Unknown = 'UNKNOWN',
 }
+
+export enum APIRoutes {
+  Cards = '/offers',
+}

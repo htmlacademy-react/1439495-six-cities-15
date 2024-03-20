@@ -10,13 +10,13 @@ import NotFoundScreen from '../../pages/not-found-screen/not-found-screen.tsx';
 import PrivateRoute from '../private-route/private-route.tsx';
 import ScrollToTop from '../scroll-to-top/scroll-to-top.tsx';
 import Layout from '../layout/layout.tsx';
-import { getCards } from '../../store/action.ts';
+import { fetchCards } from '../../store/api-actions.ts';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getCards());
+    dispatch(fetchCards());
   }, [dispatch]);
 
   return (
