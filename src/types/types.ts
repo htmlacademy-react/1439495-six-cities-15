@@ -50,7 +50,6 @@ export type TOffer = {
   previewImage: string;
   goods: string[];
   maxAdults: number;
-  comments: TReview[];
   host: TUser;
 }
 

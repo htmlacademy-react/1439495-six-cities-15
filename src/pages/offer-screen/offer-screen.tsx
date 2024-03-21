@@ -5,8 +5,10 @@ import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import CardsList from '../../components/cards-list/cards-list.tsx';
-import { useAppSelector } from '../../hooks/store-hooks.ts';
-import { TCard, TOffer } from '../../types/types.ts';
+import { TOffer, TReview, TCard } from '../../types/types.ts';
+import { createAPI } from '../../services/api.ts';
+import { APIRoutes } from '../../const.ts';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
 
 
 function ImageItem({image}: {image: string}): JSX.Element {
@@ -41,25 +43,36 @@ function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
-  const cards = useAppSelector((state) => state.cards.cards);
 
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [offer, setOffer] = useState<TOffer | undefined>();
+  const [offerComments, setOfferComments] = useState<TReview[]>([]);
   const [nearbyCards, setNearbyCards] = useState<TCard[]>([]);
 
-  const offerInfo = cards.find((item) => item.id === id);
-
   useEffect(() => {
-    if (offerInfo) {
-      setNearbyCards(cards.filter((card) => card.city.name === offerInfo.city.name));
-    }
-  }, [cards, offerInfo]);
+    setIsLoading(true);
+    const api = createAPI();
+    const getOfferInfo = async () => {
+      const {data} = await api.get<TOffer>(`${APIRoutes.Cards}/${id}`);
+      setOffer(data);
+      const {data: comments} = await api.get<TReview[]>(`${APIRoutes.Comments}/${id}`);
+      setOfferComments(comments);
+      const {data: cards} = await api.get<TCard[]>(`${APIRoutes.Cards}/${id}/nearby`);
+      setNearbyCards(cards);
+    };
+    getOfferInfo();
+    setIsLoading(false);
+  }, [id]);
 
-  if (typeof offerInfo === 'undefined') {
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (typeof offer === 'undefined') {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo as TOffer;
-
-  const cardsWithoutCurrentOffer = nearbyCards.filter((offer) => offer.id !== offerInfo.id).slice(0, 3);
+  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
 
   return (
     <main className="page__main page__main--offer">
@@ -119,18 +132,18 @@ function OfferScreen(): JSX.Element {
               </div>
             </div>
             <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-              <ReviewsList reviews={comments}/>
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
+              <ReviewsList reviews={offerComments}/>
               <ReviewForm />
             </section>
           </div>
         </div>
-        <Map className="offer__map" cards={[...cardsWithoutCurrentOffer, offerInfo]} activeCard={offerInfo} city={offerInfo.city} />
+        <Map className="offer__map" cards={[...nearbyCards.slice(0, 3), offer]} activeCard={offer} city={offer.city} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <CardsList className='near-places__list places__list' cards={cardsWithoutCurrentOffer} />
+          <CardsList className='near-places__list places__list' cards={nearbyCards.slice(0, 3)} />
         </section>
       </div>
     </main>
