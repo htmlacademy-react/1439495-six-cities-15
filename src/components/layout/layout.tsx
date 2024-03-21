@@ -1,10 +1,8 @@
 import { Outlet, Link, useLocation } from 'react-router-dom';
 import Logo from '../logo/logo.tsx';
 import { AppRoutes, AuthorizationStatus } from '../../const.ts';
-
-type LayoutProps = {
-  authorizationStatus: AuthorizationStatus;
-}
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
+import { logoutAction } from '../../store/api-actions.ts';
 
 function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean): string {
   let pageClassName = 'page';
@@ -19,13 +17,22 @@ function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage
   return pageClassName;
 }
 
-function Layout({authorizationStatus}: LayoutProps): JSX.Element {
+function Layout(): JSX.Element {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const userInfo = useAppSelector((state) => state.userInfo);
+
   const {pathname} = useLocation();
+  const dispatch = useAppDispatch();
+
   const isLoginPage = pathname === AppRoutes.Login;
   const isFavoritePage = pathname === AppRoutes.Favorites;
   const isOfferPage = pathname.includes('offer');
 
   const mainClassName = getClassName(isLoginPage, isFavoritePage, isOfferPage);
+
+  const handleSignOutClick = () => {
+    dispatch(logoutAction());
+  };
 
   return (
     <div className={mainClassName}>
@@ -43,7 +50,7 @@ function Layout({authorizationStatus}: LayoutProps): JSX.Element {
                       <Link className="header__nav-link header__nav-link--profile" to={AppRoutes.Favorites}>
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
-                        <span className="header__user-name user__name">Oliver.conner@gmail.com</span>
+                        <span className="header__user-name user__name">{userInfo && userInfo.email}</span>
                         <span className="header__favorite-count">3</span>
                       </Link>
                     </li>
@@ -51,7 +58,7 @@ function Layout({authorizationStatus}: LayoutProps): JSX.Element {
                   <li className="header__nav-item">
                     <Link className="header__nav-link" to={AppRoutes.Login}>
                       {authorizationStatus === AuthorizationStatus.Auth ?
-                        (<span className="header__signout">Sign out</span>)
+                        (<span className="header__signout" onClick={handleSignOutClick}>Sign out</span>)
                         : (<><div className="header__avatar-wrapper user__avatar-wrapper"></div><span className="header__login">Sign in</span></>)}
                     </Link>
                   </li>

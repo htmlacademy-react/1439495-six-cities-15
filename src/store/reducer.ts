@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeActiveSort, changeCity, getCards, setCardsLoadingStatus } from './action';
-import { CITIES, SortingOptions, TSortOptions } from '../const.ts';
-import { TCard } from '../types/types.ts';
+import { changeActiveSort, changeAuthorizationStatus, changeCity, getCards, setCardsLoadingStatus, setLoggedUserInfo } from './action';
+import { AuthorizationStatus, CITIES, SortingOptions, TSortOptions } from '../const.ts';
+import { TCard, TLoggedUser } from '../types/types.ts';
 
 export type StateType = {
   city: typeof CITIES[number];
@@ -10,6 +10,8 @@ export type StateType = {
     isLoading: boolean;
   };
   sortOption: TSortOptions;
+  authorizationStatus: AuthorizationStatus;
+  userInfo: TLoggedUser | null;
 }
 
 const initialState: StateType = {
@@ -18,7 +20,9 @@ const initialState: StateType = {
     cards: [],
     isLoading: false
   },
-  sortOption: SortingOptions.POPULAR
+  sortOption: SortingOptions.POPULAR,
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userInfo: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -34,6 +38,12 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(setCardsLoadingStatus, (state, action) => {
       state.cards.isLoading = action.payload;
+    })
+    .addCase(changeAuthorizationStatus, (state, action) => {
+      state.authorizationStatus = action.payload;
+    })
+    .addCase(setLoggedUserInfo, (state, action) => {
+      state.userInfo = action.payload;
     });
 });
 

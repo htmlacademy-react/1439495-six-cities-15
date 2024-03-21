@@ -1,10 +1,19 @@
 import { CITIES } from '../const.ts';
 
-export type TUser = {
+export type TAuthInfo = {
+  email: string;
+  password: string;
+}
+
+export type TLoggedUser = {
   name: string;
   avatarUrl: string;
   isPro: boolean;
+  email: string;
+  token: string;
 }
+
+export type TUser = Omit<TLoggedUser, 'email' | 'token'>
 
 export type TReview = {
   id: string;

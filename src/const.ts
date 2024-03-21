@@ -90,4 +90,8 @@ export enum AuthorizationStatus {
 
 export enum APIRoutes {
   Cards = '/offers',
+  FavoriteCards = '/favorite',
+  Comments = '/comments',
+  Login = '/login',
+  Logout = '/logout'
 }
