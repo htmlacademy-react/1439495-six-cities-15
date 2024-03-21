@@ -1,5 +1,5 @@
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
-import { TCard } from '../../mock/types.ts';
+import { TCard } from '../../types/types.ts';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import FavoritesEmpty from './favorites-empty.tsx';
 import CityItem from '../../components/city-item/city-item.tsx';
@@ -10,7 +10,7 @@ type TGroupedByCity = {
 
 function FavoritesScreen(): JSX.Element {
 
-  const cards = useAppSelector((state) => state.cards);
+  const cards = useAppSelector((state) => state.cards.cards);
 
   const favoriteCards = cards.filter((card) => card.isFavorite);
   const groupedByCity = favoriteCards.reduce((result: TGroupedByCity, card) => {

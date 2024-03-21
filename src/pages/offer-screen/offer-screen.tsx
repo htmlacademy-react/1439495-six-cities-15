@@ -6,7 +6,7 @@ import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import CardsList from '../../components/cards-list/cards-list.tsx';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
-import { TCard } from '../../mock/types.ts';
+import { TCard, TOffer } from '../../types/types.ts';
 
 
 function ImageItem({image}: {image: string}): JSX.Element {
@@ -41,7 +41,7 @@ function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
-  const cards = useAppSelector((state) => state.cards);
+  const cards = useAppSelector((state) => state.cards.cards);
 
   const [nearbyCards, setNearbyCards] = useState<TCard[]>([]);
 
@@ -57,7 +57,7 @@ function OfferScreen(): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo;
+  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo as TOffer;
 
   const cardsWithoutCurrentOffer = nearbyCards.filter((offer) => offer.id !== offerInfo.id).slice(0, 3);
 

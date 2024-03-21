@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import CardsList from '../../components/cards-list/cards-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
-import { TCard } from '../../mock/types.ts';
+import { TCard } from '../../types/types';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import SortForm from '../../components/sort-form/sort-form.tsx';
 import { SortingOptions } from '../../const.ts';
@@ -16,7 +16,7 @@ const sortBy = {
 };
 
 function MainScreen(): JSX.Element {
-  const cards = useAppSelector((state) => state.cards);
+  const cards = useAppSelector((state) => state.cards.cards);
   const city = useAppSelector((state) => state.city);
   const activeSort = useAppSelector((state) => state.sortOption);
 
