@@ -6,9 +6,10 @@ import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import CardsList from '../../components/cards-list/cards-list.tsx';
 import { TOffer, TReview, TCard } from '../../types/types.ts';
-import { createAPI } from '../../services/api.ts';
-import { APIRoutes } from '../../const.ts';
+import { APIRoutes, AuthorizationStatus } from '../../const.ts';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
+import { useAppSelector } from '../../hooks/store-hooks.ts';
+import { api } from '../../store/index.ts';
 
 
 function ImageItem({image}: {image: string}): JSX.Element {
@@ -43,6 +44,7 @@ function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
 
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [offer, setOffer] = useState<TOffer | undefined>();
@@ -51,7 +53,6 @@ function OfferScreen(): JSX.Element {
 
   useEffect(() => {
     setIsLoading(true);
-    const api = createAPI();
     const getOfferInfo = async () => {
       const {data} = await api.get<TOffer>(`${APIRoutes.Cards}/${id}`);
       setOffer(data);
@@ -72,7 +73,7 @@ function OfferScreen(): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
+  const {id: offerId, title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
 
   return (
     <main className="page__main page__main--offer">
@@ -116,14 +117,12 @@ function OfferScreen(): JSX.Element {
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
                 <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                  <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                  <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="offer__user-name">
-                  Angelina
+                  {offer.host.name}
                 </span>
-                <span className="offer__user-status">
-                  Pro
-                </span>
+                {offer.host.isPro && (<span className="offer__user-status">Pro</span>)}
               </div>
               <div className="offer__description">
                 <p className="offer__text">
@@ -134,7 +133,7 @@ function OfferScreen(): JSX.Element {
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
               <ReviewsList reviews={offerComments}/>
-              <ReviewForm />
+              {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={offerId} />}
             </section>
           </div>
         </div>

@@ -1,5 +1,6 @@
-import { ReactEventHandler, useState } from 'react';
-import { CommentLength, RatingNames } from '../../const.ts';
+import { ReactEventHandler, useState, FormEvent } from 'react';
+import { APIRoutes, CommentLength, RatingNames } from '../../const.ts';
+import { api } from '../../store/index.ts';
 
 type InputItemProps = {
   value: string;
@@ -25,7 +26,7 @@ function InputItem({value, title, onInputChange}: InputItemProps): JSX.Element {
   );
 }
 
-function ReviewForm(): JSX.Element {
+function ReviewForm({offerId}: {offerId: string}): JSX.Element {
   const [formData, setFormData] = useState<FormDataType>({
     rating: 0,
     review: ''
@@ -36,8 +37,17 @@ function ReviewForm(): JSX.Element {
     setFormData({...formData, [name]: value});
   };
 
+  const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    api.post(`${APIRoutes.Comments}/${offerId}`, {comment: formData.review, rating: +formData.rating});
+    setFormData({
+      rating: 0,
+      review: ''
+    });
+  };
+
   return (
-    <form className="reviews__form form" action="#" method="post">
+    <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
       <label className="reviews__label form__label" htmlFor="review">Your review</label>
       <div className="reviews__rating-form form__rating">
         {Object.entries(RatingNames).map(([rate, title]) => <InputItem value={rate} title={title} key={title} onInputChange={handleFormChange}/>).reverse()}
