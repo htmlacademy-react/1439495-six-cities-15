@@ -1,5 +1,18 @@
 import { CITIES } from '../const.ts';
 
+export type TAuthInfo = {
+  email: string;
+  password: string;
+}
+
+export type TLoggedUser = {
+  name: string;
+  avatarUrl: string;
+  isPro: boolean;
+  email: string;
+  token: string;
+}
+
 export type TUser = {
   name: string;
   avatarUrl: string;
