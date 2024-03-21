@@ -4,7 +4,7 @@ import { store } from '.';
 import { StateType } from './reducer';
 import { APIRoutes, AuthorizationStatus } from '../const';
 import { TAuthInfo, TCard, TLoggedUser } from '../types/types';
-import { changeAuthorizationStatus, getCards, setCardsLoadingStatus } from './action';
+import { changeAuthorizationStatus, getCards, setCardsLoadingStatus, setLoggedUserInfo } from './action';
 import { dropToken, saveToken } from '../services/token';
 
 export const fetchCards = createAsyncThunk<void, undefined, {
@@ -27,7 +27,8 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, {
 }>('user/checkAuthStatus',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      await api.get(APIRoutes.Login);
+      const {data} = await api.get<TLoggedUser>(APIRoutes.Login);
+      dispatch(setLoggedUserInfo(data));
       dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
     } catch {
       dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
@@ -43,6 +44,7 @@ export const loginAction = createAsyncThunk<void, TAuthInfo, {
   async ({email, password}, {dispatch, extra: api}) => {
     const {data} = await api.post<TLoggedUser>(APIRoutes.Login, {email, password});
     saveToken(data.token);
+    dispatch(setLoggedUserInfo(data));
     dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
   }
 );
@@ -55,6 +57,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   async (_arg, {dispatch, extra: api}) => {
     await api.delete(APIRoutes.Logout);
     dropToken();
+    dispatch(setLoggedUserInfo(null));
     dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
   }
 );

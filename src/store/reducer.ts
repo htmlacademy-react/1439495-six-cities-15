@@ -1,7 +1,7 @@
 import { createReducer } from '@reduxjs/toolkit';
-import { changeActiveSort, changeAuthorizationStatus, changeCity, getCards, setCardsLoadingStatus } from './action';
+import { changeActiveSort, changeAuthorizationStatus, changeCity, getCards, setCardsLoadingStatus, setLoggedUserInfo } from './action';
 import { AuthorizationStatus, CITIES, SortingOptions, TSortOptions } from '../const.ts';
-import { TCard } from '../types/types.ts';
+import { TCard, TLoggedUser } from '../types/types.ts';
 
 export type StateType = {
   city: typeof CITIES[number];
@@ -11,6 +11,7 @@ export type StateType = {
   };
   sortOption: TSortOptions;
   authorizationStatus: AuthorizationStatus;
+  userInfo: TLoggedUser | null;
 }
 
 const initialState: StateType = {
@@ -20,7 +21,8 @@ const initialState: StateType = {
     isLoading: false
   },
   sortOption: SortingOptions.POPULAR,
-  authorizationStatus: AuthorizationStatus.Unknown
+  authorizationStatus: AuthorizationStatus.Unknown,
+  userInfo: null
 };
 
 const reducer = createReducer(initialState, (builder) => {
@@ -39,6 +41,9 @@ const reducer = createReducer(initialState, (builder) => {
     })
     .addCase(changeAuthorizationStatus, (state, action) => {
       state.authorizationStatus = action.payload;
+    })
+    .addCase(setLoggedUserInfo, (state, action) => {
+      state.userInfo = action.payload;
     });
 });
 

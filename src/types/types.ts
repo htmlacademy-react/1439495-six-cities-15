@@ -13,11 +13,7 @@ export type TLoggedUser = {
   token: string;
 }
 
-export type TUser = {
-  name: string;
-  avatarUrl: string;
-  isPro: boolean;
-}
+export type TUser = Omit<TLoggedUser, 'email' | 'token'>
 
 export type TReview = {
   id: string;
