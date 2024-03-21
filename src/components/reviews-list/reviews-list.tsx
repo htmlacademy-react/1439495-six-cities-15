@@ -1,4 +1,4 @@
-import { TReview } from '../../mock/types';
+import { TReview } from '../../types/types';
 
 function ReviewItem({review}: {review: TReview}): JSX.Element {
   const {date, user, comment, rating} = review;

@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { TCard } from '../../mock/types';
+import { TCard } from '../../types/types';
 
 type TFavoriteCardProps = {
   card: TCard;
