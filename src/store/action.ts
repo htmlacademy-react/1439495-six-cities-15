@@ -1,6 +1,6 @@
 import { createAction } from '@reduxjs/toolkit';
 import { AuthorizationStatus, CITIES, TSortOptions } from '../const.ts';
-import { TCard, TLoggedUser } from '../types/types.ts';
+import { TCard, TLoggedUser, TOffer, TReview } from '../types/types.ts';
 
 export const changeCity = createAction<{city: typeof CITIES[number]}>('city/changeCity');
 
@@ -13,3 +13,11 @@ export const setCardsLoadingStatus = createAction<boolean>('cards/setLoadingStat
 export const changeAuthorizationStatus = createAction<AuthorizationStatus>('user/changeAuthorizationStatus');
 
 export const setLoggedUserInfo = createAction<TLoggedUser | null>('user/setLoggedUserInfo');
+
+export const setOfferInfo = createAction<TOffer>('offer/setOfferInfo');
+
+export const setNearbyCards = createAction<TCard[]>('offer/setNearbyCards');
+
+export const setOfferLoadingStatus = createAction<boolean>('offer/setOfferLoadingStatus');
+
+export const setOfferComments = createAction<TReview[]>('offer/setOfferComments');

@@ -1,15 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Map from '../../components/map/map.tsx';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import CardsList from '../../components/cards-list/cards-list.tsx';
-import { TOffer, TReview, TCard } from '../../types/types.ts';
-import { APIRoutes, AuthorizationStatus } from '../../const.ts';
+import { AuthorizationStatus } from '../../const.ts';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
-import { useAppSelector } from '../../hooks/store-hooks.ts';
-import { api } from '../../store/index.ts';
+import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
+import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../store/api-actions.ts';
 
 
 function ImageItem({image}: {image: string}): JSX.Element {
@@ -44,36 +43,31 @@ function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-
-  const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [offer, setOffer] = useState<TOffer | undefined>();
-  const [offerComments, setOfferComments] = useState<TReview[]>([]);
-  const [nearbyCards, setNearbyCards] = useState<TCard[]>([]);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    setIsLoading(true);
-    const getOfferInfo = async () => {
-      const {data} = await api.get<TOffer>(`${APIRoutes.Cards}/${id}`);
-      setOffer(data);
-      const {data: comments} = await api.get<TReview[]>(`${APIRoutes.Comments}/${id}`);
-      setOfferComments(comments);
-      const {data: cards} = await api.get<TCard[]>(`${APIRoutes.Cards}/${id}/nearby`);
-      setNearbyCards(cards);
-    };
-    getOfferInfo();
-    setIsLoading(false);
-  }, [id]);
+    if (id) {
+      dispatch(getOfferInfoByID(id));
+      dispatch(fetchNearbyCards(id));
+      dispatch(fetchOfferComments(id));
+    }
+  }, [id, dispatch]);
+
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isLoading = useAppSelector((state) => state.offer.isLoading);
+  const offer = useAppSelector((state) => state.offer.offerInfo);
+  const offerComments = useAppSelector((state) => state.offer.comments);
+  const nearbyCards = useAppSelector((state) => state.offer.nearbyCards);
 
   if (isLoading) {
     return <LoadingSpinner />;
   }
 
-  if (typeof offer === 'undefined') {
+  if (!offer) {
     return <NotFoundScreen />;
   }
 
-  const {id: offerId, title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
+  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
 
   return (
     <main className="page__main page__main--offer">
@@ -133,7 +127,7 @@ function OfferScreen(): JSX.Element {
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
               <ReviewsList reviews={offerComments}/>
-              {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm offerId={offerId} />}
+              {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
             </section>
           </div>
         </div>

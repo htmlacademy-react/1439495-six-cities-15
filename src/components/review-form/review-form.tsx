@@ -1,6 +1,7 @@
 import { ReactEventHandler, useState, FormEvent } from 'react';
-import { APIRoutes, CommentLength, RatingNames } from '../../const.ts';
-import { api } from '../../store/index.ts';
+import { CommentLength, RatingNames } from '../../const.ts';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
+import { postCommentToOffer } from '../../store/api-actions.ts';
 
 type InputItemProps = {
   value: string;
@@ -8,7 +9,7 @@ type InputItemProps = {
   onInputChange: ReactEventHandler<HTMLInputElement | HTMLTextAreaElement>;
 }
 
-type FormDataType = {
+export type FormDataType = {
   rating: number;
   review: string;
 }
@@ -26,7 +27,10 @@ function InputItem({value, title, onInputChange}: InputItemProps): JSX.Element {
   );
 }
 
-function ReviewForm({offerId}: {offerId: string}): JSX.Element {
+function ReviewForm(): JSX.Element {
+  const offerId = useAppSelector((state) => state.offer.offerInfo?.id);
+  const dispatch = useAppDispatch();
+
   const [formData, setFormData] = useState<FormDataType>({
     rating: 0,
     review: ''
@@ -39,11 +43,16 @@ function ReviewForm({offerId}: {offerId: string}): JSX.Element {
 
   const handleFormSubmit = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    api.post(`${APIRoutes.Comments}/${offerId}`, {comment: formData.review, rating: +formData.rating});
-    setFormData({
-      rating: 0,
-      review: ''
-    });
+    if (offerId) {
+      dispatch(postCommentToOffer({
+        id: offerId,
+        comment: formData
+      }));
+      setFormData({
+        rating: 0,
+        review: ''
+      });
+    }
   };
 
   return (
