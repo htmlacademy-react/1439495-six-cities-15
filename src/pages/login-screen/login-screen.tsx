@@ -4,8 +4,6 @@ import { FormEvent, useRef } from 'react';
 import { useAppDispatch } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions';
 
-const RASSWORD_REGEXP = /^.*(?=.*[a-zA-Z])(?=.*\d).*$/;
-
 function LoginScreen(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
@@ -15,7 +13,7 @@ function LoginScreen(): JSX.Element {
 
   const handleSubmitLoginForm = (evt: FormEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    if (emailRef.current && passwordRef.current && RASSWORD_REGEXP.test(passwordRef.current.value)) {
+    if (emailRef.current && passwordRef.current) {
       dispatch(loginAction({
         email: emailRef.current.value,
         password: passwordRef.current.value
@@ -36,7 +34,16 @@ function LoginScreen(): JSX.Element {
             </div>
             <div className="login__input-wrapper form__input-wrapper">
               <label className="visually-hidden">Password</label>
-              <input className="login__input form__input" ref={passwordRef} type="password" name="password" placeholder="Password" required />
+              <input
+                className="login__input form__input"
+                ref={passwordRef}
+                type="password"
+                name="password"
+                placeholder="Password"
+                pattern='/^.*(?=.*[a-zA-Z])(?=.*\d).*$/'
+                title='Пароль должен содержать как минимум 1 букву и 1 цифру'
+                required
+              />
             </div>
             <button className="login__submit form__submit button" type="submit">Sign in
             </button>

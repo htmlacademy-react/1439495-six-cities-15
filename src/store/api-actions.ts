@@ -2,7 +2,7 @@ import { AxiosInstance } from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { store } from '.';
 import { StateType } from './reducer';
-import { APIRoutes, AuthorizationStatus } from '../const';
+import { APIRoute, AuthorizationStatus } from '../const';
 import { TAuthInfo, TCard, TLoggedUser, TOffer, TReview, PostCommentInfo } from '../types/types';
 import { changeAuthorizationStatus, getCards, setCardsLoadingStatus, setLoggedUserInfo, setNearbyCards, setOfferComments, setOfferInfo, setOfferLoadingStatus } from './action';
 import { dropToken, saveToken } from '../services/token';
@@ -14,7 +14,7 @@ export const fetchCards = createAsyncThunk<void, undefined, {
 }>('cards/fetchCards',
   async (_arg, {dispatch, extra: api}) => {
     dispatch(setCardsLoadingStatus(true));
-    const {data} = await api.get<TCard[]>(APIRoutes.Cards);
+    const {data} = await api.get<TCard[]>(APIRoute.Cards);
     dispatch(setCardsLoadingStatus(false));
     dispatch(getCards({cards: data}));
   }
@@ -27,7 +27,7 @@ export const checkAuthStatus = createAsyncThunk<void, undefined, {
 }>('user/checkAuthStatus',
   async (_arg, {dispatch, extra: api}) => {
     try {
-      const {data} = await api.get<TLoggedUser>(APIRoutes.Login);
+      const {data} = await api.get<TLoggedUser>(APIRoute.Login);
       dispatch(setLoggedUserInfo(data));
       dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
     } catch {
@@ -42,7 +42,7 @@ export const loginAction = createAsyncThunk<void, TAuthInfo, {
   extra: AxiosInstance;
 }>('user/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<TLoggedUser>(APIRoutes.Login, {email, password});
+    const {data} = await api.post<TLoggedUser>(APIRoute.Login, {email, password});
     saveToken(data.token);
     dispatch(setLoggedUserInfo(data));
     dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
@@ -55,7 +55,7 @@ export const logoutAction = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>('user/logout',
   async (_arg, {dispatch, extra: api}) => {
-    await api.delete(APIRoutes.Logout);
+    await api.delete(APIRoute.Logout);
     dropToken();
     dispatch(setLoggedUserInfo(null));
     dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
@@ -70,7 +70,7 @@ export const getOfferInfoByID = createAsyncThunk<void, string, {
   async (id, {dispatch, extra: api}) => {
     try {
       dispatch(setOfferLoadingStatus(true));
-      const {data} = await api.get<TOffer>(`${APIRoutes.Cards}/${id}`);
+      const {data} = await api.get<TOffer>(`${APIRoute.Cards}/${id}`);
       dispatch(setOfferLoadingStatus(false));
       dispatch(setOfferInfo(data));
     } catch {
@@ -85,7 +85,7 @@ export const fetchNearbyCards = createAsyncThunk<void, string, {
   extra: AxiosInstance;
 }>('offer/fetchNearbyCards',
   async (id, {dispatch, extra: api}) => {
-    const {data} = await api.get<TCard[]>(`${APIRoutes.Cards}/${id}/nearby`);
+    const {data} = await api.get<TCard[]>(`${APIRoute.Cards}/${id}/nearby`);
     dispatch(setNearbyCards(data));
   }
 );
@@ -96,7 +96,7 @@ export const fetchOfferComments = createAsyncThunk<void, string, {
   extra: AxiosInstance;
 }>('offer/fetchNearbyCards',
   async (id, {dispatch, extra: api}) => {
-    const {data} = await api.get<TReview[]>(`${APIRoutes.Comments}/${id}`);
+    const {data} = await api.get<TReview[]>(`${APIRoute.Comments}/${id}`);
     dispatch(setOfferComments(data));
   }
 );
@@ -107,7 +107,7 @@ export const postCommentToOffer = createAsyncThunk<void, PostCommentInfo, {
   extra: AxiosInstance;
 }>('offer/fetchNearbyCards',
   async ({id, comment}, {getState, dispatch, extra: api}) => {
-    const {data} = await api.post<TReview>(`${APIRoutes.Comments}/${id}`, {comment: comment.review, rating: +comment.rating});
+    const {data} = await api.post<TReview>(`${APIRoute.Comments}/${id}`, {comment: comment.review, rating: +comment.rating});
     const state = getState();
     dispatch(setOfferComments([...state.offer.comments, data]));
   }

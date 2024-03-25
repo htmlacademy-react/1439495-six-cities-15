@@ -6,7 +6,7 @@ import { TCard, TLoggedUser, TOffer, TReview } from '../types/types.ts';
 export type StateType = {
   city: typeof CITIES[number];
   cards: {
-    cards: TCard[];
+    data: TCard[];
     isLoading: boolean;
   };
   sortOption: TSortOptions;
@@ -23,7 +23,7 @@ export type StateType = {
 const initialState: StateType = {
   city: CITIES[0],
   cards: {
-    cards: [],
+    data: [],
     isLoading: false
   },
   sortOption: SortingOptions.POPULAR,
@@ -43,7 +43,7 @@ const reducer = createReducer(initialState, (builder) => {
       state.city = action.payload.city;
     })
     .addCase(getCards, (state, action) => {
-      state.cards.cards = action.payload.cards;
+      state.cards.data = action.payload.cards;
     })
     .addCase(changeActiveSort, (state, action) => {
       state.sortOption = action.payload.option;
