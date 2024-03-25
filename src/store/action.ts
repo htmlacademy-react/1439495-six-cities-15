@@ -14,6 +14,8 @@ export const changeAuthorizationStatus = createAction<AuthorizationStatus>('user
 
 export const setLoggedUserInfo = createAction<TLoggedUser | null>('user/setLoggedUserInfo');
 
+export const setIsAuthError = createAction<boolean>('user/setIsAuthError');
+
 export const setOfferInfo = createAction<TOffer>('offer/setOfferInfo');
 
 export const setNearbyCards = createAction<TCard[]>('offer/setNearbyCards');
@@ -21,3 +23,5 @@ export const setNearbyCards = createAction<TCard[]>('offer/setNearbyCards');
 export const setOfferLoadingStatus = createAction<boolean>('offer/setOfferLoadingStatus');
 
 export const setOfferComments = createAction<TReview[]>('offer/setOfferComments');
+
+export const setIsPostReviewError = createAction<boolean>('offer/setIsPostReviewError');

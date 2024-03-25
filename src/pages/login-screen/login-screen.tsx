@@ -1,12 +1,13 @@
 import { Link, useNavigate } from 'react-router-dom';
 import { AppRoutes } from '../../const';
 import { FormEvent, useRef } from 'react';
-import { useAppDispatch } from '../../hooks/store-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions';
 
 function LoginScreen(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
+  const isAuthError = useAppSelector((state) => state.isAuthError);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -18,7 +19,9 @@ function LoginScreen(): JSX.Element {
         email: emailRef.current.value,
         password: passwordRef.current.value
       }));
-      navigate(AppRoutes.Main);
+      if (!isAuthError) {
+        navigate(AppRoutes.Main);
+      }
     }
   };
 
@@ -40,7 +43,7 @@ function LoginScreen(): JSX.Element {
                 type="password"
                 name="password"
                 placeholder="Password"
-                pattern='/^.*(?=.*[a-zA-Z])(?=.*\d).*$/'
+                pattern='^.*(?=.*[a-zA-Z])(?=.*\d).*$'
                 title='Пароль должен содержать как минимум 1 букву и 1 цифру'
                 required
               />

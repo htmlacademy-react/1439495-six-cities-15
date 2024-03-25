@@ -4,7 +4,7 @@ import { store } from '.';
 import { StateType } from './reducer';
 import { APIRoute, AuthorizationStatus } from '../const';
 import { TAuthInfo, TCard, TLoggedUser, TOffer, TReview, PostCommentInfo } from '../types/types';
-import { changeAuthorizationStatus, getCards, setCardsLoadingStatus, setLoggedUserInfo, setNearbyCards, setOfferComments, setOfferInfo, setOfferLoadingStatus } from './action';
+import { changeAuthorizationStatus, getCards, setCardsLoadingStatus, setIsAuthError, setIsPostReviewError, setLoggedUserInfo, setNearbyCards, setOfferComments, setOfferInfo, setOfferLoadingStatus } from './action';
 import { dropToken, saveToken } from '../services/token';
 
 export const fetchCards = createAsyncThunk<void, undefined, {
@@ -13,10 +13,14 @@ export const fetchCards = createAsyncThunk<void, undefined, {
   extra: AxiosInstance;
 }>('cards/fetchCards',
   async (_arg, {dispatch, extra: api}) => {
-    dispatch(setCardsLoadingStatus(true));
-    const {data} = await api.get<TCard[]>(APIRoute.Cards);
-    dispatch(setCardsLoadingStatus(false));
-    dispatch(getCards({cards: data}));
+    try {
+      dispatch(setCardsLoadingStatus(true));
+      const {data} = await api.get<TCard[]>(APIRoute.Cards);
+      dispatch(setCardsLoadingStatus(false));
+      dispatch(getCards({cards: data}));
+    } catch {
+      dispatch(setCardsLoadingStatus(false));
+    }
   }
 );
 
@@ -42,10 +46,16 @@ export const loginAction = createAsyncThunk<void, TAuthInfo, {
   extra: AxiosInstance;
 }>('user/login',
   async ({email, password}, {dispatch, extra: api}) => {
-    const {data} = await api.post<TLoggedUser>(APIRoute.Login, {email, password});
-    saveToken(data.token);
-    dispatch(setLoggedUserInfo(data));
-    dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
+    try {
+      const {data} = await api.post<TLoggedUser>(APIRoute.Login, {email, password});
+      saveToken(data.token);
+      dispatch(setIsAuthError(false));
+      dispatch(setLoggedUserInfo(data));
+      dispatch(changeAuthorizationStatus(AuthorizationStatus.Auth));
+    } catch {
+      dispatch(changeAuthorizationStatus(AuthorizationStatus.NoAuth));
+      dispatch(setIsAuthError(true));
+    }
   }
 );
 
@@ -94,7 +104,7 @@ export const fetchOfferComments = createAsyncThunk<void, string, {
   dispatch: typeof store.dispatch;
   state: StateType;
   extra: AxiosInstance;
-}>('offer/fetchNearbyCards',
+}>('offer/fetchOfferComments',
   async (id, {dispatch, extra: api}) => {
     const {data} = await api.get<TReview[]>(`${APIRoute.Comments}/${id}`);
     dispatch(setOfferComments(data));
@@ -105,10 +115,15 @@ export const postCommentToOffer = createAsyncThunk<void, PostCommentInfo, {
   dispatch: typeof store.dispatch;
   state: StateType;
   extra: AxiosInstance;
-}>('offer/fetchNearbyCards',
+}>('offer/postCommentToOffer',
   async ({id, comment}, {getState, dispatch, extra: api}) => {
-    const {data} = await api.post<TReview>(`${APIRoute.Comments}/${id}`, {comment: comment.review, rating: +comment.rating});
-    const state = getState();
-    dispatch(setOfferComments([...state.offer.comments, data]));
+    try {
+      const {data} = await api.post<TReview>(`${APIRoute.Comments}/${id}`, {comment: comment.review, rating: +comment.rating});
+      const state = getState();
+      dispatch(setIsPostReviewError(false));
+      dispatch(setOfferComments([...state.offer.comments, data]));
+    } catch {
+      dispatch(setIsPostReviewError(true));
+    }
   }
 );
