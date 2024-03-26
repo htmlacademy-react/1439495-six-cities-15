@@ -10,7 +10,7 @@ type TGroupedByCity = {
 
 function FavoritesScreen(): JSX.Element {
 
-  const cards = useAppSelector((state) => state.cards.cards);
+  const cards = useAppSelector((state) => state.cards.data);
 
   const favoriteCards = cards.filter((card) => card.isFavorite);
   const groupedByCity = favoriteCards.reduce((result: TGroupedByCity, card) => {

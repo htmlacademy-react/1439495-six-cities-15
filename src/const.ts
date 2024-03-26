@@ -88,7 +88,7 @@ export enum AuthorizationStatus {
   Unknown = 'UNKNOWN',
 }
 
-export enum APIRoutes {
+export enum APIRoute {
   Cards = '/offers',
   FavoriteCards = '/favorite',
   Comments = '/comments',

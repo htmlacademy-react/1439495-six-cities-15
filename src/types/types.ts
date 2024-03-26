@@ -1,3 +1,4 @@
+import { FormDataType } from '../components/review-form/review-form.tsx';
 import { CITIES } from '../const.ts';
 
 export type TAuthInfo = {
@@ -50,8 +51,12 @@ export type TOffer = {
   previewImage: string;
   goods: string[];
   maxAdults: number;
-  comments: TReview[];
   host: TUser;
 }
 
 export type TCard = Omit<TOffer, 'images' | 'description' | 'bedrooms' | 'goods' | 'maxAdults' | 'comments' | 'host'>
+
+export type PostCommentInfo = {
+  id: string;
+  comment: FormDataType;
+}

@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Map from '../../components/map/map.tsx';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
 import NotFoundScreen from '../not-found-screen/not-found-screen.tsx';
 import CardsList from '../../components/cards-list/cards-list.tsx';
-import { useAppSelector } from '../../hooks/store-hooks.ts';
-import { TCard, TOffer } from '../../types/types.ts';
+import { AuthorizationStatus } from '../../const.ts';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
+import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
+import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../store/api-actions.ts';
 
 
 function ImageItem({image}: {image: string}): JSX.Element {
@@ -41,25 +43,31 @@ function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
-  const cards = useAppSelector((state) => state.cards.cards);
-
-  const [nearbyCards, setNearbyCards] = useState<TCard[]>([]);
-
-  const offerInfo = cards.find((item) => item.id === id);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (offerInfo) {
-      setNearbyCards(cards.filter((card) => card.city.name === offerInfo.city.name));
+    if (id) {
+      dispatch(getOfferInfoByID(id));
+      dispatch(fetchNearbyCards(id));
+      dispatch(fetchOfferComments(id));
     }
-  }, [cards, offerInfo]);
+  }, [id, dispatch]);
 
-  if (typeof offerInfo === 'undefined') {
+  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
+  const isLoading = useAppSelector((state) => state.offer.isLoading);
+  const offer = useAppSelector((state) => state.offer.offerInfo);
+  const offerComments = useAppSelector((state) => state.offer.comments);
+  const nearbyCards = useAppSelector((state) => state.offer.nearbyCards);
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (!offer) {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, comments, rating} = offerInfo as TOffer;
-
-  const cardsWithoutCurrentOffer = nearbyCards.filter((offer) => offer.id !== offerInfo.id).slice(0, 3);
+  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
 
   return (
     <main className="page__main page__main--offer">
@@ -103,14 +111,12 @@ function OfferScreen(): JSX.Element {
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
                 <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
-                  <img className="offer__avatar user__avatar" src="img/avatar-angelina.jpg" width="74" height="74" alt="Host avatar" />
+                  <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="offer__user-name">
-                  Angelina
+                  {offer.host.name}
                 </span>
-                <span className="offer__user-status">
-                  Pro
-                </span>
+                {offer.host.isPro && (<span className="offer__user-status">Pro</span>)}
               </div>
               <div className="offer__description">
                 <p className="offer__text">
@@ -119,18 +125,18 @@ function OfferScreen(): JSX.Element {
               </div>
             </div>
             <section className="offer__reviews reviews">
-              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{comments.length}</span></h2>
-              <ReviewsList reviews={comments}/>
-              <ReviewForm />
+              <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
+              <ReviewsList reviews={offerComments}/>
+              {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
             </section>
           </div>
         </div>
-        <Map className="offer__map" cards={[...cardsWithoutCurrentOffer, offerInfo]} activeCard={offerInfo} city={offerInfo.city} />
+        <Map className="offer__map" cards={[...nearbyCards.slice(0, 3), offer]} activeCard={offer} city={offer.city} />
       </section>
       <div className="container">
         <section className="near-places places">
           <h2 className="near-places__title">Other places in the neighbourhood</h2>
-          <CardsList className='near-places__list places__list' cards={cardsWithoutCurrentOffer} />
+          <CardsList className='near-places__list places__list' cards={nearbyCards.slice(0, 3)} />
         </section>
       </div>
     </main>
