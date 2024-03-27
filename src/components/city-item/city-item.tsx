@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import { AppRoutes, CITIES } from '../../const.ts';
 import { useAppDispatch } from '../../hooks/store-hooks.ts';
 import { changeCity } from '../../store/city/city-slice.ts';
@@ -8,7 +9,8 @@ type CityItemProps = {
   activeCity?: string;
 }
 
-function CityItem({city, activeCity}: CityItemProps): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const CityItem = memo(function CityItem({city, activeCity}: CityItemProps): JSX.Element {
   const dispatch = useAppDispatch();
 
   const handleCityClick = () => {
@@ -23,6 +25,6 @@ function CityItem({city, activeCity}: CityItemProps): JSX.Element {
       </Link>
     </li>
   );
-}
+});
 
 export default CityItem;

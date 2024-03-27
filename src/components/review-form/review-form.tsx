@@ -1,4 +1,4 @@
-import { ReactEventHandler, useState, FormEvent } from 'react';
+import { ReactEventHandler, useState, FormEvent, memo } from 'react';
 import { useParams } from 'react-router-dom';
 import { CommentLength, RatingNames } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
@@ -30,8 +30,8 @@ function InputItem({value, title, checkedValue, onInputChange}: InputItemProps):
   );
 }
 
-function ReviewForm(): JSX.Element {
-  //const offerId = useAppSelector((state) => state.offer.offerInfo?.id);
+// eslint-disable-next-line prefer-arrow-callback
+const ReviewForm = memo(function ReviewForm(): JSX.Element {
   const { id: offerId } = useParams();
   const isPostReviewError = useAppSelector(getPostReviewErrorStatus);
   const dispatch = useAppDispatch();
@@ -77,6 +77,6 @@ function ReviewForm(): JSX.Element {
       </div>
     </form>
   );
-}
+});
 
 export default ReviewForm;

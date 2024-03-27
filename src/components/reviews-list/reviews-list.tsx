@@ -1,6 +1,8 @@
+import { memo } from 'react';
 import { TReview } from '../../types/types';
 
-function ReviewItem({review}: {review: TReview}): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const ReviewItem = memo(function ReviewItem({review}: {review: TReview}): JSX.Element {
   const {date, user, comment, rating} = review;
   return (
     <li className="reviews__item">
@@ -26,14 +28,15 @@ function ReviewItem({review}: {review: TReview}): JSX.Element {
       </div>
     </li>
   );
-}
+});
 
-function ReviewsList({reviews}: {reviews: TReview[]}): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const ReviewsList = memo(function ReviewsList({reviews}: {reviews: TReview[]}): JSX.Element {
   return (
     <ul className="reviews__list">
       {reviews.map((review) => <ReviewItem review={review} key={review.id}/>)}
     </ul>
   );
-}
+});
 
 export default ReviewsList;

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import { useState, memo } from 'react';
 import SortOptions from '../../components/sort-options/sort-options.tsx';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import { getActiveSort } from '../../store/cards/cards-selectors.ts';
 
-function SortForm(): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const SortForm = memo(function SortForm(): JSX.Element {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
   const activeSort = useAppSelector(getActiveSort);
 
@@ -23,6 +24,6 @@ function SortForm(): JSX.Element {
       <SortOptions isOpenForm={isOpenForm} />
     </form>
   );
-}
+});
 
 export default SortForm;

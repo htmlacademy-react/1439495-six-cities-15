@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import { TCard } from '../../types/types';
 
 type CardProps = {
@@ -7,15 +8,17 @@ type CardProps = {
   className?: string;
 }
 
-function PremiumBadgeForCard(): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const PremiumBadgeForCard = memo(function PremiumBadgeForCard(): JSX.Element {
   return (
     <div className="place-card__mark">
       <span>Premium</span>
     </div>
   );
-}
+});
 
-function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const Card = memo(function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Element {
   const {id, title, type, price, isPremium, previewImage, rating} = card;
 
   const handleMouseEnter = () => {
@@ -64,6 +67,6 @@ function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Elemen
       </div>
     </article>
   );
-}
+});
 
 export default Card;
