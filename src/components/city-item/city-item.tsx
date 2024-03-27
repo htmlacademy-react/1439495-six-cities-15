@@ -1,7 +1,7 @@
 import { Link } from 'react-router-dom';
 import { AppRoutes, CITIES } from '../../const.ts';
-import { changeCity } from '../../store/action.ts';
 import { useAppDispatch } from '../../hooks/store-hooks.ts';
+import { changeCity } from '../../store/city/city-slice.ts';
 
 type CityItemProps = {
   city: string;

@@ -1,6 +1,7 @@
 import { SortingOptions, TSortOptions } from '../../const.ts';
 import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
-import { changeActiveSort } from '../../store/action.ts';
+import { getActiveSort } from '../../store/cards/cards-selectors.ts';
+import { changeActiveSort } from '../../store/cards/cards-slice.ts';
 
 type OptionItemProps = {
   name: TSortOptions;
@@ -11,7 +12,7 @@ type SortOptionsProps = {
 }
 
 function OptionItem({name}: OptionItemProps): JSX.Element {
-  const activeSort = useAppSelector((state) => state.sortOption);
+  const activeSort = useAppSelector(getActiveSort);
   const dispatch = useAppDispatch();
 
   const handleSortClick = () => {

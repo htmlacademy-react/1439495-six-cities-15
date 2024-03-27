@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import SortOptions from '../../components/sort-options/sort-options.tsx';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
+import { getActiveSort } from '../../store/cards/cards-selectors.ts';
 
 function SortForm(): JSX.Element {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
-  const activeSort = useAppSelector((state) => state.sortOption);
+  const activeSort = useAppSelector(getActiveSort);
 
   const handleFormClick = () => {
     setIsOpenForm(!isOpenForm);

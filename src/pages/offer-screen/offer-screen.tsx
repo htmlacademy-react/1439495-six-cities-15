@@ -9,6 +9,8 @@ import { AuthorizationStatus } from '../../const.ts';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
 import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
 import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../store/api-actions.ts';
+import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
+import { getNearbyCards, getOfferComments, getOfferInfo, getOfferLoadingStatus } from '../../store/offer/offer-selectors.ts';
 
 
 function ImageItem({image}: {image: string}): JSX.Element {
@@ -53,11 +55,11 @@ function OfferScreen(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isLoading = useAppSelector((state) => state.offer.isLoading);
-  const offer = useAppSelector((state) => state.offer.offerInfo);
-  const offerComments = useAppSelector((state) => state.offer.comments);
-  const nearbyCards = useAppSelector((state) => state.offer.nearbyCards);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isLoading = useAppSelector(getOfferLoadingStatus);
+  const offer = useAppSelector(getOfferInfo);
+  const offerComments = useAppSelector(getOfferComments);
+  const nearbyCards = useAppSelector(getNearbyCards);
 
   if (isLoading) {
     return <LoadingSpinner />;

@@ -7,6 +7,8 @@ import { useAppSelector } from '../../hooks/store-hooks.ts';
 import SortForm from '../../components/sort-form/sort-form.tsx';
 import { SortingOptions } from '../../const.ts';
 import NoCardsInCity from './no-cards-in-city.tsx';
+import { getActiveSort, getCards } from '../../store/cards/cards-selectors.ts';
+import { getCity } from '../../store/city/city-selectors.ts';
 
 const sortBy = {
   [SortingOptions.POPULAR]: (cards: TCard[]) => cards,
@@ -16,9 +18,9 @@ const sortBy = {
 };
 
 function MainScreen(): JSX.Element {
-  const cards = useAppSelector((state) => state.cards.data);
-  const city = useAppSelector((state) => state.city);
-  const activeSort = useAppSelector((state) => state.sortOption);
+  const cards = useAppSelector(getCards);
+  const city = useAppSelector(getCity);
+  const activeSort = useAppSelector(getActiveSort);
 
   const [activeCard, setActiveCard] = useState<TCard | null>();
   const [cardsInActiveCity, setCardsInActiveCity] = useState<TCard[]>([]);
