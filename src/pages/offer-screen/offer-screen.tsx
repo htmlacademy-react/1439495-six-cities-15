@@ -1,5 +1,5 @@
 import { useParams } from 'react-router-dom';
-import { useEffect } from 'react';
+import { useEffect, memo } from 'react';
 import Map from '../../components/map/map.tsx';
 import ReviewForm from '../../components/review-form/review-form.tsx';
 import ReviewsList from '../../components/reviews-list/reviews-list.tsx';
@@ -9,17 +9,20 @@ import { AuthorizationStatus } from '../../const.ts';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
 import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
 import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../store/api-actions.ts';
+import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
+import { getNearbyCards, getOfferComments, getOfferErrorStatus, getOfferInfo, getOfferLoadingStatus } from '../../store/offer/offer-selectors.ts';
 
-
-function ImageItem({image}: {image: string}): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const ImageItem = memo(function ImageItem({image}: {image: string}): JSX.Element {
   return (
     <div className="offer__image-wrapper">
       <img className="offer__image" src={image} alt="Photo studio" />
     </div>
   );
-}
+});
 
-function ImagesList({images}: {images: string[]}): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const ImagesList = memo(function ImagesList({images}: {images: string[]}): JSX.Element {
   return (
     <div className="offer__gallery-container container">
       <div className="offer__gallery">
@@ -27,19 +30,21 @@ function ImagesList({images}: {images: string[]}): JSX.Element {
       </div>
     </div>
   );
-}
+});
 
-function FeatureItem({feature}: {feature: string}): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const FeatureItem = memo(function FeatureItem({feature}: {feature: string}): JSX.Element {
   return (<li className="offer__inside-item">{feature}</li>);
-}
+});
 
-function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const FeaturesInsideList = memo(function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
   return (
     <ul className="offer__inside-list">
       {features.map((feature) => <FeatureItem feature={feature} key={feature}/>)}
     </ul>
   );
-}
+});
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
@@ -53,14 +58,23 @@ function OfferScreen(): JSX.Element {
     }
   }, [id, dispatch]);
 
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const isLoading = useAppSelector((state) => state.offer.isLoading);
-  const offer = useAppSelector((state) => state.offer.offerInfo);
-  const offerComments = useAppSelector((state) => state.offer.comments);
-  const nearbyCards = useAppSelector((state) => state.offer.nearbyCards);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isLoading = useAppSelector(getOfferLoadingStatus);
+  const isServerError = useAppSelector(getOfferErrorStatus);
+  const offer = useAppSelector(getOfferInfo);
+  const offerComments = useAppSelector(getOfferComments);
+  const nearbyCards = useAppSelector(getNearbyCards);
 
   if (isLoading) {
     return <LoadingSpinner />;
+  }
+
+  if (isServerError) {
+    return (
+      <main className="page__main page__main--offer">
+        <h3>Произошла ошибка при загрузке данных.</h3>
+      </main>
+    );
   }
 
   if (!offer) {

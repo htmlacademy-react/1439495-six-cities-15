@@ -1,7 +1,8 @@
 import { useAppSelector } from '../../hooks/store-hooks.ts';
+import { getCity } from '../../store/city/city-selectors.ts';
 
 function NoCardsInCity(): JSX.Element {
-  const city = useAppSelector((state) => state.city);
+  const city = useAppSelector(getCity);
 
   return (
     <div className="cities">

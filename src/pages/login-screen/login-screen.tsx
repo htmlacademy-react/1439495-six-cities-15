@@ -3,11 +3,12 @@ import { AppRoutes } from '../../const';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions';
+import { isLoginError } from '../../store/user/user-selectors';
 
 function LoginScreen(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
   const passwordRef = useRef<HTMLInputElement | null>(null);
-  const isAuthError = useAppSelector((state) => state.isAuthError);
+  const isAuthError = useAppSelector(isLoginError);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();

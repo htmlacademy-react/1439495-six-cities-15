@@ -3,6 +3,7 @@ import Logo from '../logo/logo.tsx';
 import { AppRoutes, AuthorizationStatus } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
 import { logoutAction } from '../../store/api-actions.ts';
+import { getAuthorizationStatus, getUserInfo } from '../../store/user/user-selectors.ts';
 
 function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean): string {
   let pageClassName = 'page';
@@ -18,8 +19,8 @@ function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage
 }
 
 function Layout(): JSX.Element {
-  const authorizationStatus = useAppSelector((state) => state.authorizationStatus);
-  const userInfo = useAppSelector((state) => state.userInfo);
+  const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const userInfo = useAppSelector(getUserInfo);
 
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();

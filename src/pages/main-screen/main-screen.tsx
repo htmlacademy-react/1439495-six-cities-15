@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import CardsList from '../../components/cards-list/cards-list.tsx';
 import CitiesList from '../../components/cities-list/cities-list.tsx';
 import Map from '../../components/map/map.tsx';
@@ -7,6 +7,8 @@ import { useAppSelector } from '../../hooks/store-hooks.ts';
 import SortForm from '../../components/sort-form/sort-form.tsx';
 import { SortingOptions } from '../../const.ts';
 import NoCardsInCity from './no-cards-in-city.tsx';
+import { getActiveSort, getCards, getCardsErrorStatus } from '../../store/cards/cards-selectors.ts';
+import { getCity } from '../../store/city/city-selectors.ts';
 
 const sortBy = {
   [SortingOptions.POPULAR]: (cards: TCard[]) => cards,
@@ -16,9 +18,10 @@ const sortBy = {
 };
 
 function MainScreen(): JSX.Element {
-  const cards = useAppSelector((state) => state.cards.data);
-  const city = useAppSelector((state) => state.city);
-  const activeSort = useAppSelector((state) => state.sortOption);
+  const cards = useAppSelector(getCards);
+  const city = useAppSelector(getCity);
+  const activeSort = useAppSelector(getActiveSort);
+  const isServerError = useAppSelector(getCardsErrorStatus);
 
   const [activeCard, setActiveCard] = useState<TCard | null>();
   const [cardsInActiveCity, setCardsInActiveCity] = useState<TCard[]>([]);
@@ -27,9 +30,8 @@ function MainScreen(): JSX.Element {
     setCardsInActiveCity(cards.filter((card) => card.city.name === city.name));
   }, [cards, city]);
 
-  const handleSelectActiveCard = (card?: TCard) => {
-    setActiveCard(card);
-  };
+
+  const handleSelectActiveCard = useCallback((card?: TCard) => setActiveCard(card), []);
 
   return (
     <main className={`page__main page__main--index ${cardsInActiveCity.length === 0 && 'page__main--index-empty'}`}>
@@ -39,7 +41,8 @@ function MainScreen(): JSX.Element {
           <CitiesList activeCity={city.name} />
         </section>
       </div>
-      {cardsInActiveCity.length === 0 ? <NoCardsInCity/> : (
+      {isServerError && (<p>Произошла ошибка при загрузке данных.</p>)}
+      {cardsInActiveCity.length === 0 && !isServerError ? <NoCardsInCity/> : (
         <div className="cities">
           <div className="cities__places-container container">
             <section className="cities__places places">

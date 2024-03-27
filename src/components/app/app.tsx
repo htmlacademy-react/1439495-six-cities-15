@@ -12,10 +12,11 @@ import ScrollToTop from '../scroll-to-top/scroll-to-top.tsx';
 import Layout from '../layout/layout.tsx';
 import { checkAuthStatus, fetchCards } from '../../store/api-actions.ts';
 import LoadingSpinner from '../loading-spinner/loading-spinner.tsx';
+import { getCardsLoadingStatus } from '../../store/cards/cards-selectors.ts';
 
 function App(): JSX.Element {
   const dispatch = useAppDispatch();
-  const isLoading = useAppSelector((state) => state.cards.isLoading);
+  const isLoading = useAppSelector(getCardsLoadingStatus);
 
   useEffect(() => {
     dispatch(fetchCards());

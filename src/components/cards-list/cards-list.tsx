@@ -1,3 +1,4 @@
+import { memo } from 'react';
 import Card from '../../components/card/card.tsx';
 import { TCard } from '../../types/types';
 
@@ -7,13 +8,14 @@ type CardsListProps = {
   onMouseHover?: (arg?: TCard) => void;
 }
 
-function CardsList({cards, className, onMouseHover}: CardsListProps): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const CardsList = memo(function CardsList({cards, className, onMouseHover}: CardsListProps): JSX.Element {
 
   return (
     <div className={className}>
       {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} />)}
     </div>
   );
-}
+});
 
 export default CardsList;
