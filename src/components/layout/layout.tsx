@@ -4,6 +4,7 @@ import { AppRoutes, AuthorizationStatus } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
 import { logoutAction } from '../../store/api-actions.ts';
 import { getAuthorizationStatus, getUserInfo } from '../../store/user/user-selectors.ts';
+import { getFavoriteCards } from '../../store/favorite-cards/favorite-cards-selectors.ts';
 
 function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean): string {
   let pageClassName = 'page';
@@ -21,6 +22,7 @@ function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage
 function Layout(): JSX.Element {
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const userInfo = useAppSelector(getUserInfo);
+  const favoriteCards = useAppSelector(getFavoriteCards);
 
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();
@@ -52,7 +54,7 @@ function Layout(): JSX.Element {
                         <div className="header__avatar-wrapper user__avatar-wrapper">
                         </div>
                         <span className="header__user-name user__name">{userInfo && userInfo.email}</span>
-                        <span className="header__favorite-count">3</span>
+                        <span className="header__favorite-count">{favoriteCards.length}</span>
                       </Link>
                     </li>
                   )}
