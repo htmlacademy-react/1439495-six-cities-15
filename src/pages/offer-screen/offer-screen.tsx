@@ -11,6 +11,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
 import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../store/api-actions.ts';
 import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
 import { getNearbyCards, getOfferComments, getOfferErrorStatus, getOfferInfo, getOfferLoadingStatus } from '../../store/offer/offer-selectors.ts';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button.tsx';
 
 // eslint-disable-next-line prefer-arrow-callback
 const ImageItem = memo(function ImageItem({image}: {image: string}): JSX.Element {
@@ -81,7 +82,7 @@ function OfferScreen(): JSX.Element {
     return <NotFoundScreen />;
   }
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
+  const {title, type, price, images, description, bedrooms, isPremium, isFavorite, goods, maxAdults, rating, id: offerId} = offer;
 
   return (
     <main className="page__main page__main--offer">
@@ -94,12 +95,7 @@ function OfferScreen(): JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button className="offer__bookmark-button button" type="button">
-                <svg className="offer__bookmark-icon" width="31" height="33">
-                  <use xlinkHref="#icon-bookmark"></use>
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <BookmarkButton className='offer' isFavorite={isFavorite} cardId={offerId} />
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">

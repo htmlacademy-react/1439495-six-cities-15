@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from '@reduxjs/toolkit';
 import { NameSpace, SortingOptions, TSortOptions } from '../../const';
 import { TCard } from '../../types/types';
-import { fetchCards } from '../api-actions';
+import { changeFavoriteStatus, fetchCards } from '../api-actions';
 
 type CardsInitialStateType = {
   cards: {
@@ -42,6 +42,10 @@ export const cardsSlice = createSlice({
       .addCase(fetchCards.rejected, (state) => {
         state.cards.isLoading = false;
         state.cards.isError = true;
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        const index = state.cards.data.findIndex((item) => item.id === action.payload.id);
+        state.cards.data[index].isFavorite = action.payload.isFavorite;
       });
   }
 });

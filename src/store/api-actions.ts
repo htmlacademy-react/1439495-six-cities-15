@@ -104,3 +104,14 @@ export const fetchFavoriteCards = createAsyncThunk<TCard[], undefined, {
     return data;
   }
 );
+
+export const changeFavoriteStatus = createAsyncThunk<TOffer, {offerId: string; status: number}, {
+  dispatch: typeof store.dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('favorite/changeStatus',
+  async ({offerId, status}, {extra: api}) => {
+    const {data} = await api.post<TOffer>(`${APIRoute.FavoriteCards}/${offerId}/${status}`);
+    return data;
+  }
+);

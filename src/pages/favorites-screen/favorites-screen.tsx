@@ -1,11 +1,9 @@
 import FavoriteCard from '../../components/favorite-card/favorite-card.tsx';
 import { TCard } from '../../types/types.ts';
-import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
+import { useAppSelector } from '../../hooks/store-hooks.ts';
 import FavoritesEmpty from './favorites-empty.tsx';
 import CityItem from '../../components/city-item/city-item.tsx';
 import { getFavoriteCards, getFavoriteCardsErrorStatus, getFavoriteCardsLoadingStatus } from '../../store/favorite-cards/favorite-cards-selectors.ts';
-import { useEffect } from 'react';
-import { fetchFavoriteCards } from '../../store/api-actions.ts';
 import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
 
 type TGroupedByCity = {
@@ -13,11 +11,6 @@ type TGroupedByCity = {
 }
 
 function FavoritesScreen(): JSX.Element {
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    dispatch(fetchFavoriteCards());
-  }, [dispatch]);
 
   const favoriteCards = useAppSelector(getFavoriteCards);
   const isLoading = useAppSelector(getFavoriteCardsLoadingStatus);

@@ -1,12 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { TCard } from '../../types/types';
+import { TCard, TOffer } from '../../types/types';
 import { NameSpace } from '../../const';
-import { fetchFavoriteCards } from '../api-actions';
+import { changeFavoriteStatus, fetchFavoriteCards } from '../api-actions';
 
 
 type FavoriteCardsInitialStateType = {
   favoriteCards: {
-    data: TCard[];
+    data: Array<TCard | TOffer>;
     isLoading: boolean;
     isError: boolean;
   };
@@ -37,6 +37,13 @@ export const favoriteCardsSlice = createSlice({
       .addCase(fetchFavoriteCards.rejected, (state) => {
         state.favoriteCards.isLoading = false;
         state.favoriteCards.isError = true;
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        if (action.payload.isFavorite) {
+          state.favoriteCards.data.push(action.payload);
+        } else {
+          state.favoriteCards.data = state.favoriteCards.data.filter((item) => item.id !== action.payload.id);
+        }
       });
   }
 });
