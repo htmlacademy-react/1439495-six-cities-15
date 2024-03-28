@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import { TCard } from '../../types/types';
 import BookmarkButton from '../bookmark-button/bookmark-button';
 
@@ -6,7 +7,8 @@ type TFavoriteCardProps = {
   card: TCard;
 }
 
-function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const FavoriteCard = memo(function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
   const {previewImage, price, type, title, id, rating, isFavorite} = card;
 
   return (
@@ -40,6 +42,6 @@ function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
       </div>
     </article>
   );
-}
+});
 
 export default FavoriteCard;

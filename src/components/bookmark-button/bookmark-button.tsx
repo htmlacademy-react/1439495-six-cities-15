@@ -1,4 +1,5 @@
 import { useNavigate } from 'react-router-dom';
+import { memo } from 'react';
 import { AppRoutes, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getAuthorizationStatus } from '../../store/user/user-selectors';
@@ -10,7 +11,8 @@ type BookmarkButtonProps = {
   isFavorite: boolean;
 }
 
-function BookmarkButton({isFavorite, cardId, className = 'place-card'}: BookmarkButtonProps): JSX.Element {
+// eslint-disable-next-line prefer-arrow-callback
+const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, className = 'place-card'}: BookmarkButtonProps): JSX.Element {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const navigate = useNavigate();
@@ -39,6 +41,6 @@ function BookmarkButton({isFavorite, cardId, className = 'place-card'}: Bookmark
       <span className="visually-hidden">{isFavorite ? 'In bookmarks' : 'To bookmarks'}</span>
     </button>
   );
-}
+});
 
 export default BookmarkButton;
