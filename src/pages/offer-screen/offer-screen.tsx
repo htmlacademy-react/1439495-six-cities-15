@@ -84,6 +84,10 @@ function OfferScreen(): JSX.Element {
 
   const {title, type, price, images, description, bedrooms, isPremium, isFavorite, goods, maxAdults, rating, id: offerId} = offer;
 
+  const sortedComments = offerComments.slice()
+    .sort((first, second) => new Date(second.date).getTime() - new Date(first.date).getTime())
+    .slice(0, 10);
+
   return (
     <main className="page__main page__main--offer">
       <section className="offer">
@@ -136,7 +140,7 @@ function OfferScreen(): JSX.Element {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
-              <ReviewsList reviews={offerComments}/>
+              <ReviewsList reviews={sortedComments}/>
               {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
             </section>
           </div>
