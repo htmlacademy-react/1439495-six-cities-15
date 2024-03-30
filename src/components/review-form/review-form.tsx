@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { CommentLength, RatingNames } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
 import { postCommentToOffer } from '../../store/api-actions.ts';
-import { getPostReviewErrorStatus } from '../../store/offer/offer-selectors.ts';
+import { getPostReviewLoadingStatus } from '../../store/offer/offer-selectors.ts';
 
 type InputItemProps = {
   value: string;
@@ -33,7 +33,7 @@ function InputItem({value, title, checkedValue, onInputChange}: InputItemProps):
 // eslint-disable-next-line prefer-arrow-callback
 const ReviewForm = memo(function ReviewForm(): JSX.Element {
   const { id: offerId } = useParams();
-  const isPostReviewError = useAppSelector(getPostReviewErrorStatus);
+  const isPostReviewLoading = useAppSelector(getPostReviewLoadingStatus);
   const dispatch = useAppDispatch();
 
   const [formData, setFormData] = useState<FormDataType>({
@@ -52,15 +52,19 @@ const ReviewForm = memo(function ReviewForm(): JSX.Element {
       dispatch(postCommentToOffer({
         id: offerId,
         comment: formData
-      }));
-      if (!isPostReviewError) {
-        setFormData({
-          rating: '0',
-          review: ''
+      }))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            setFormData({
+              rating: '0',
+              review: ''
+            });
+          }
         });
-      }
     }
   };
+
+  const isSubmitButtonDisabled = isPostReviewLoading || formData.rating === '0' || formData.review.length < CommentLength.MIN || formData.review.length > CommentLength.MAX;
 
   return (
     <form className="reviews__form form" action="#" method="post" onSubmit={handleFormSubmit}>
@@ -73,7 +77,7 @@ const ReviewForm = memo(function ReviewForm(): JSX.Element {
         <p className="reviews__help">
           To submit review please make sure to set <span className="reviews__star">rating</span> and describe your stay with at least <b className="reviews__text-amount">{CommentLength.MIN} characters</b>.
         </p>
-        <button className="reviews__submit form__submit button" type="submit" disabled={formData.rating === '0' || formData.review.length < CommentLength.MIN || formData.review.length > CommentLength.MAX}>Submit</button>
+        <button className="reviews__submit form__submit button" type="submit" disabled={isSubmitButtonDisabled}>Submit</button>
       </div>
     </form>
   );

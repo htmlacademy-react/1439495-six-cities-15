@@ -53,9 +53,13 @@ function OfferScreen(): JSX.Element {
 
   useEffect(() => {
     if (id) {
-      dispatch(getOfferInfoByID(id));
-      dispatch(fetchNearbyCards(id));
-      dispatch(fetchOfferComments(id));
+      dispatch(getOfferInfoByID(id))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            dispatch(fetchNearbyCards(id));
+            dispatch(fetchOfferComments(id));
+          }
+        });
     }
   }, [id, dispatch]);
 
@@ -70,16 +74,16 @@ function OfferScreen(): JSX.Element {
     return <LoadingSpinner />;
   }
 
+  if (!offer) {
+    return <NotFoundScreen />;
+  }
+
   if (isServerError) {
     return (
       <main className="page__main page__main--offer">
         <h3>Произошла ошибка при загрузке данных.</h3>
       </main>
     );
-  }
-
-  if (!offer) {
-    return <NotFoundScreen />;
   }
 
   const {title, type, price, images, description, bedrooms, isPremium, isFavorite, goods, maxAdults, rating, id: offerId} = offer;

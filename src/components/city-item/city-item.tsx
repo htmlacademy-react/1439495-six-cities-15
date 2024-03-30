@@ -19,11 +19,9 @@ const CityItem = memo(function CityItem({city, activeCity}: CityItemProps): JSX.
   };
 
   return (
-    <li className="locations__item">
-      <Link className={`locations__item-link tabs__item ${activeCity === city && 'tabs__item--active'}`} to={AppRoutes.Main} onClick={handleCityClick}>
-        <span>{city}</span>
-      </Link>
-    </li>
+    <Link className={`locations__item-link tabs__item ${activeCity === city && 'tabs__item--active'}`} to={AppRoutes.Main} onClick={handleCityClick}>
+      <span>{city}</span>
+    </Link>
   );
 });
 

@@ -1,9 +1,10 @@
-import { Link, useNavigate } from 'react-router-dom';
-import { AppRoutes } from '../../const';
+import { useNavigate } from 'react-router-dom';
+import { AppRoutes, CITIES } from '../../const';
 import { FormEvent, useRef } from 'react';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { loginAction } from '../../store/api-actions';
 import { isLoginError } from '../../store/user/user-selectors';
+import CityItem from '../../components/city-item/city-item';
 
 function LoginScreen(): JSX.Element {
   const emailRef = useRef<HTMLInputElement | null>(null);
@@ -25,6 +26,8 @@ function LoginScreen(): JSX.Element {
       }
     }
   };
+
+  const randomCityIndex = Math.floor(Math.random() * CITIES.length);
 
   return (
     <main className="page__main page__main--login">
@@ -55,9 +58,7 @@ function LoginScreen(): JSX.Element {
         </section>
         <section className="locations locations--login locations--current">
           <div className="locations__item">
-            <Link className="locations__item-link" to={AppRoutes.Main}>
-              <span>Amsterdam</span>
-            </Link>
+            <CityItem city={CITIES[randomCityIndex].name} />
           </div>
         </section>
       </div>

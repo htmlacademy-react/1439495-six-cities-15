@@ -8,3 +8,4 @@ export const getOfferComments = (state: State): TReview[] => state[NameSpace.Off
 export const getOfferLoadingStatus = (state: State): boolean => state[NameSpace.Offer].offer.isLoading;
 export const getOfferErrorStatus = (state: State): boolean => state[NameSpace.Offer].offer.isError;
 export const getPostReviewErrorStatus = (state: State): boolean => state[NameSpace.Offer].offer.isPostReviewError;
+export const getPostReviewLoadingStatus = (state: State): boolean => state[NameSpace.Offer].offer.isPostCommentLoading;

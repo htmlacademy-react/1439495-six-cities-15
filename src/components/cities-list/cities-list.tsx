@@ -11,7 +11,11 @@ const CitiesList = memo(function CitiesList({activeCity}: CitiesListProps): JSX.
 
   return (
     <ul className="locations__list tabs__list">
-      {CITIES.map((city) => <CityItem city={city.name} key={city.name} activeCity={activeCity} />)}
+      {CITIES.map((city) => (
+        <li className="locations__item" key={city.name}>
+          <CityItem city={city.name} activeCity={activeCity} />
+        </li>
+      ))}
     </ul>
   );
 });
