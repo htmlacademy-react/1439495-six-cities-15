@@ -5,10 +5,19 @@ import App from './components/app/app';
 import { Provider } from 'react-redux';
 import { store } from './store';
 import 'react-toastify/dist/ReactToastify.css';
+import { checkAuthStatus, fetchCards, fetchFavoriteCards } from './store/api-actions';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
+
+store.dispatch(fetchCards());
+store.dispatch(checkAuthStatus())
+  .then((response) => {
+    if (response.meta.requestStatus === 'fulfilled') {
+      store.dispatch(fetchFavoriteCards());
+    }
+  });
 
 root.render(
   <React.StrictMode>
