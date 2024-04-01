@@ -47,7 +47,7 @@ function MainScreen(): JSX.Element {
           <div className="cities__places-container container">
             <section className="cities__places places">
               <h2 className="visually-hidden">Places</h2>
-              <b className="places__found">{cardsInActiveCity.length} places to stay in {city.name}</b>
+              <b className="places__found">{cardsInActiveCity.length} place{cardsInActiveCity.length === 1 ? '' : 's'} to stay in {city.name}</b>
               <SortForm />
               <CardsList className='cities__places-list places__list tabs__content' cards={sortBy[activeSort]([...cardsInActiveCity])} onMouseHover={handleSelectActiveCard}/>
             </section>

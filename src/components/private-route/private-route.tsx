@@ -1,4 +1,4 @@
-import { Navigate } from 'react-router-dom';
+import { Location, Navigate, useLocation } from 'react-router-dom';
 import { AppRoutes } from '../../const.ts';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import { getUserInfo } from '../../store/user/user-selectors.ts';
@@ -8,14 +8,20 @@ type PrivateRouteProps = {
   isReverse?: boolean;
 }
 
-function PrivateRoute({children, isReverse}: PrivateRouteProps): JSX.Element {
+type LocationType = {
+  from?: Location;
+}
 
+function PrivateRoute({children, isReverse}: PrivateRouteProps): JSX.Element {
+  const location: Location<LocationType> = useLocation() as Location<LocationType>;
   const user = useAppSelector(getUserInfo);
+
   if (user && isReverse) {
-    return <Navigate to={AppRoutes.Main} />;
+    const from = location.state?.from || { pathname: AppRoutes.Main };
+    return <Navigate to={from} />;
   }
   if (!user && !isReverse) {
-    return <Navigate to={AppRoutes.Login} />;
+    return <Navigate state={{ from: location }} to={AppRoutes.Login} />;
   }
 
   return children;

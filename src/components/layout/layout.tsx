@@ -1,4 +1,4 @@
-import { Outlet, Link, useLocation } from 'react-router-dom';
+import { Outlet, Link, useLocation, useNavigate } from 'react-router-dom';
 import Logo from '../logo/logo.tsx';
 import { AppRoutes, AuthorizationStatus } from '../../const.ts';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks.ts';
@@ -6,8 +6,12 @@ import { logoutAction } from '../../store/api-actions.ts';
 import { getAuthorizationStatus, getUserInfo } from '../../store/user/user-selectors.ts';
 import { getFavoriteCards } from '../../store/favorite-cards/favorite-cards-selectors.ts';
 
-function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isOfferPage: boolean): string {
-  let pageClassName = 'page';
+function getClassName(isLoginPage: boolean, isFavoritePage: boolean, isEmptyFavorite: boolean, isOfferPage: boolean): string {
+  let pageClassName = 'page ';
+  if (isFavoritePage && isEmptyFavorite) {
+    pageClassName += 'page--favorites-empty';
+    return pageClassName;
+  }
   if (isOfferPage || isFavoritePage) {
     return pageClassName;
   }
@@ -26,15 +30,18 @@ function Layout(): JSX.Element {
 
   const {pathname} = useLocation();
   const dispatch = useAppDispatch();
+  const navigate = useNavigate();
 
   const isLoginPage = pathname === AppRoutes.Login;
   const isFavoritePage = pathname === AppRoutes.Favorites;
+  const isEmptyFavorite = favoriteCards.length === 0;
   const isOfferPage = pathname.includes('offer');
 
-  const mainClassName = getClassName(isLoginPage, isFavoritePage, isOfferPage);
+  const mainClassName = getClassName(isLoginPage, isFavoritePage, isEmptyFavorite, isOfferPage);
 
   const handleSignOutClick = () => {
     dispatch(logoutAction());
+    navigate(AppRoutes.Main);
   };
 
   return (
@@ -58,8 +65,8 @@ function Layout(): JSX.Element {
                       </Link>
                     </li>
                   )}
-                  <li className="header__nav-item">
-                    <Link className="header__nav-link" to={AppRoutes.Login}>
+                  <li className={`header__nav-item ${authorizationStatus === AuthorizationStatus.NoAuth && 'user'}`}>
+                    <Link className={`header__nav-link ${authorizationStatus === AuthorizationStatus.NoAuth && 'header__nav-link--profile'}`} to={AppRoutes.Login}>
                       {authorizationStatus === AuthorizationStatus.Auth ?
                         (<span className="header__signout" onClick={handleSignOutClick}>Sign out</span>)
                         : (<><div className="header__avatar-wrapper user__avatar-wrapper"></div><span className="header__login">Sign in</span></>)}

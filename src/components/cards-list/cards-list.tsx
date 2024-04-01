@@ -13,7 +13,7 @@ const CardsList = memo(function CardsList({cards, className, onMouseHover}: Card
 
   return (
     <div className={className}>
-      {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} />)}
+      {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} className={className.includes('near-places') ? 'near-places' : 'cities'} />)}
     </div>
   );
 });
