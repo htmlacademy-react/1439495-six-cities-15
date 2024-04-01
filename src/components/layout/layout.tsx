@@ -40,8 +40,16 @@ function Layout(): JSX.Element {
   const mainClassName = getClassName(isLoginPage, isFavoritePage, isEmptyFavorite, isOfferPage);
 
   const handleSignOutClick = () => {
-    dispatch(logoutAction());
-    navigate(AppRoutes.Main);
+    dispatch(logoutAction())
+      .then((response) => {
+        if (response.meta.requestStatus === 'fulfilled') {
+          if (isFavoritePage) {
+            navigate(AppRoutes.Login);
+          } else {
+            navigate(AppRoutes.Main);
+          }
+        }
+      });
   };
 
   return (
