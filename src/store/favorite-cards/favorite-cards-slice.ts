@@ -9,6 +9,7 @@ type FavoriteCardsInitialStateType = {
     data: Array<TCard | TOffer>;
     isLoading: boolean;
     isError: boolean;
+    isLoadingChangeStatus: boolean;
   };
 }
 
@@ -16,7 +17,8 @@ const initialState: FavoriteCardsInitialStateType = {
   favoriteCards: {
     data: [],
     isLoading: false,
-    isError: false
+    isError: false,
+    isLoadingChangeStatus: false
   },
 };
 
@@ -38,7 +40,11 @@ export const favoriteCardsSlice = createSlice({
         state.favoriteCards.isLoading = false;
         state.favoriteCards.isError = true;
       })
+      .addCase(changeFavoriteStatus.pending, (state) => {
+        state.favoriteCards.isLoadingChangeStatus = true;
+      })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        state.favoriteCards.isLoadingChangeStatus = false;
         if (action.payload.isFavorite) {
           state.favoriteCards.data.push(action.payload);
         } else {

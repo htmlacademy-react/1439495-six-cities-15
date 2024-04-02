@@ -4,6 +4,7 @@ import { AppRoutes, AuthorizationStatus } from '../../const';
 import { useAppDispatch, useAppSelector } from '../../hooks/store-hooks';
 import { getAuthorizationStatus } from '../../store/user/user-selectors';
 import { changeFavoriteStatus } from '../../store/api-actions';
+import { getChangeFavoriteLoadingStatus } from '../../store/favorite-cards/favorite-cards-selectors';
 
 type BookmarkButtonProps = {
   cardId: string;
@@ -15,6 +16,7 @@ type BookmarkButtonProps = {
 const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, className = 'place-card'}: BookmarkButtonProps): JSX.Element {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
+  const isLoading = useAppSelector(getChangeFavoriteLoadingStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
@@ -34,6 +36,7 @@ const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, classNa
       className={`${className}__bookmark-button button ${isFavorite && `${className}__bookmark-button--active`}`}
       type="button"
       onClick={handleBtnClick}
+      disabled={isLoading}
     >
       <svg className={`${className}__bookmark-icon`} width={className === 'offer' ? 31 : 18} height={className === 'offer' ? 33 : 19}>
         <use xlinkHref="#icon-bookmark"></use>

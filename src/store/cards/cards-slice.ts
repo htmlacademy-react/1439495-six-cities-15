@@ -45,7 +45,9 @@ export const cardsSlice = createSlice({
       })
       .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
         const index = state.cards.data.findIndex((item) => item.id === action.payload.id);
-        state.cards.data[index].isFavorite = action.payload.isFavorite;
+        if (index !== -1) {
+          state.cards.data[index].isFavorite = action.payload.isFavorite;
+        }
       });
   }
 });
