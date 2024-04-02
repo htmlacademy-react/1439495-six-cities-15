@@ -11,6 +11,7 @@ import { useAppSelector, useAppDispatch } from '../../hooks/store-hooks.ts';
 import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID } from '../../store/api-actions.ts';
 import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
 import { getNearbyCards, getOfferComments, getOfferErrorStatus, getOfferInfo, getOfferLoadingStatus } from '../../store/offer/offer-selectors.ts';
+import BookmarkButton from '../../components/bookmark-button/bookmark-button.tsx';
 
 // eslint-disable-next-line prefer-arrow-callback
 const ImageItem = memo(function ImageItem({image}: {image: string}): JSX.Element {
@@ -26,7 +27,7 @@ const ImagesList = memo(function ImagesList({images}: {images: string[]}): JSX.E
   return (
     <div className="offer__gallery-container container">
       <div className="offer__gallery">
-        {images.map((image) => <ImageItem image={image} key={image} />)}
+        {images.slice(0, 6).map((image) => <ImageItem image={image} key={image} />)}
       </div>
     </div>
   );
@@ -52,9 +53,13 @@ function OfferScreen(): JSX.Element {
 
   useEffect(() => {
     if (id) {
-      dispatch(getOfferInfoByID(id));
-      dispatch(fetchNearbyCards(id));
-      dispatch(fetchOfferComments(id));
+      dispatch(getOfferInfoByID(id))
+        .then((response) => {
+          if (response.meta.requestStatus === 'fulfilled') {
+            dispatch(fetchNearbyCards(id));
+            dispatch(fetchOfferComments(id));
+          }
+        });
     }
   }, [id, dispatch]);
 
@@ -69,6 +74,10 @@ function OfferScreen(): JSX.Element {
     return <LoadingSpinner />;
   }
 
+  if (!offer) {
+    return <NotFoundScreen />;
+  }
+
   if (isServerError) {
     return (
       <main className="page__main page__main--offer">
@@ -77,11 +86,11 @@ function OfferScreen(): JSX.Element {
     );
   }
 
-  if (!offer) {
-    return <NotFoundScreen />;
-  }
+  const {title, type, price, images, description, bedrooms, isPremium, isFavorite, goods, maxAdults, rating, id: offerId} = offer;
 
-  const {title, type, price, images, description, bedrooms, isPremium, goods, maxAdults, rating} = offer;
+  const sortedComments = offerComments.slice()
+    .sort((first, second) => new Date(second.date).getTime() - new Date(first.date).getTime())
+    .slice(0, 10);
 
   return (
     <main className="page__main page__main--offer">
@@ -94,12 +103,7 @@ function OfferScreen(): JSX.Element {
               <h1 className="offer__name">
                 {title}
               </h1>
-              <button className="offer__bookmark-button button" type="button">
-                <svg className="offer__bookmark-icon" width="31" height="33">
-                  <use xlinkHref="#icon-bookmark"></use>
-                </svg>
-                <span className="visually-hidden">To bookmarks</span>
-              </button>
+              <BookmarkButton className='offer' isFavorite={isFavorite} cardId={offerId} />
             </div>
             <div className="offer__rating rating">
               <div className="offer__stars rating__stars">
@@ -124,7 +128,7 @@ function OfferScreen(): JSX.Element {
             <div className="offer__host">
               <h2 className="offer__host-title">Meet the host</h2>
               <div className="offer__host-user user">
-                <div className="offer__avatar-wrapper offer__avatar-wrapper--pro user__avatar-wrapper">
+                <div className={`offer__avatar-wrapper user__avatar-wrapper ${offer.host.isPro && 'offer__avatar-wrapper--pro'}`}>
                   <img className="offer__avatar user__avatar" src={offer.host.avatarUrl} width="74" height="74" alt="Host avatar" />
                 </div>
                 <span className="offer__user-name">
@@ -140,7 +144,7 @@ function OfferScreen(): JSX.Element {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
-              <ReviewsList reviews={offerComments}/>
+              <ReviewsList reviews={sortedComments}/>
               {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
             </section>
           </div>

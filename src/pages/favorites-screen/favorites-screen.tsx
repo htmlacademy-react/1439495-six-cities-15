@@ -3,7 +3,8 @@ import { TCard } from '../../types/types.ts';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import FavoritesEmpty from './favorites-empty.tsx';
 import CityItem from '../../components/city-item/city-item.tsx';
-import { getCards } from '../../store/cards/cards-selectors.ts';
+import { getFavoriteCards, getFavoriteCardsErrorStatus, getFavoriteCardsLoadingStatus } from '../../store/favorite-cards/favorite-cards-selectors.ts';
+import LoadingSpinner from '../../components/loading-spinner/loading-spinner.tsx';
 
 type TGroupedByCity = {
   [index: string]: TCard[];
@@ -11,9 +12,10 @@ type TGroupedByCity = {
 
 function FavoritesScreen(): JSX.Element {
 
-  const cards = useAppSelector(getCards);
+  const favoriteCards = useAppSelector(getFavoriteCards);
+  const isLoading = useAppSelector(getFavoriteCardsLoadingStatus);
+  const isError = useAppSelector(getFavoriteCardsErrorStatus);
 
-  const favoriteCards = cards.filter((card) => card.isFavorite);
   const groupedByCity = favoriteCards.reduce((result: TGroupedByCity, card) => {
     if (result[card.city.name]) {
       result[card.city.name].push(card);
@@ -22,6 +24,14 @@ function FavoritesScreen(): JSX.Element {
     }
     return result;
   }, {});
+
+  if (isLoading) {
+    return <LoadingSpinner />;
+  }
+
+  if (isError) {
+    return <p>Не удалось загрузить данные.</p>;
+  }
 
   if (favoriteCards.length === 0) {
     return <FavoritesEmpty />;

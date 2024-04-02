@@ -1,12 +1,15 @@
 import { Link } from 'react-router-dom';
+import { memo } from 'react';
 import { TCard } from '../../types/types';
+import BookmarkButton from '../bookmark-button/bookmark-button';
 
 type TFavoriteCardProps = {
   card: TCard;
 }
 
-function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
-  const {previewImage, price, type, title, id, rating} = card;
+// eslint-disable-next-line prefer-arrow-callback
+const FavoriteCard = memo(function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
+  const {previewImage, price, type, title, id, rating, isFavorite} = card;
 
   return (
     <article className="favorites__card place-card">
@@ -24,12 +27,7 @@ function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
             <b className="place-card__price-value">&euro;{price}</b>
             <span className="place-card__price-text">&#47;&nbsp;night</span>
           </div>
-          <button className="place-card__bookmark-button place-card__bookmark-button--active button" type="button">
-            <svg className="place-card__bookmark-icon" width="18" height="19">
-              <use xlinkHref="#icon-bookmark"></use>
-            </svg>
-            <span className="visually-hidden">In bookmarks</span>
-          </button>
+          <BookmarkButton isFavorite={isFavorite} cardId={id} />
         </div>
         <div className="place-card__rating rating">
           <div className="place-card__stars rating__stars">
@@ -44,6 +42,6 @@ function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
       </div>
     </article>
   );
-}
+});
 
 export default FavoriteCard;

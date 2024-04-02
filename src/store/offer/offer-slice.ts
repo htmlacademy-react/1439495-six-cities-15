@@ -1,7 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { NameSpace } from '../../const';
 import { TCard, TOffer, TReview } from '../../types/types';
-import { fetchNearbyCards, fetchOfferComments, getOfferInfoByID, postCommentToOffer } from '../api-actions';
+import { changeFavoriteStatus, fetchNearbyCards, fetchOfferComments, getOfferInfoByID, postCommentToOffer } from '../api-actions';
+import { toast } from 'react-toastify';
 
 type OfferInitialStateType = {
   offer: {
@@ -11,6 +12,7 @@ type OfferInitialStateType = {
     isLoading: boolean;
     isError: boolean;
     isPostReviewError: boolean;
+    isPostCommentLoading: boolean;
   };
 }
 
@@ -21,7 +23,8 @@ const initialState: OfferInitialStateType = {
     comments: [],
     isLoading: false,
     isError: false,
-    isPostReviewError: false
+    isPostReviewError: false,
+    isPostCommentLoading: false
   }
 };
 
@@ -49,12 +52,23 @@ export const offerSlice = createSlice({
       .addCase(fetchOfferComments.fulfilled, (state, action) => {
         state.offer.comments = action.payload;
       })
-      .addCase(postCommentToOffer.fulfilled, (state, action) => {
+      .addCase(postCommentToOffer.pending, (state) => {
         state.offer.isPostReviewError = false;
+        state.offer.isPostCommentLoading = true;
+      })
+      .addCase(postCommentToOffer.fulfilled, (state, action) => {
+        state.offer.isPostCommentLoading = false;
         state.offer.comments.push(action.payload);
       })
       .addCase(postCommentToOffer.rejected, (state) => {
         state.offer.isPostReviewError = true;
+        state.offer.isPostCommentLoading = false;
+        toast.error('Не удалось отправить отзыв');
+      })
+      .addCase(changeFavoriteStatus.fulfilled, (state, action) => {
+        if (state.offer.offerInfo && state.offer.offerInfo.id === action.payload.id) {
+          state.offer.offerInfo.isFavorite = action.payload.isFavorite;
+        }
       });
   }
 });

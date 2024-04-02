@@ -93,3 +93,25 @@ export const postCommentToOffer = createAsyncThunk<TReview, PostCommentInfo, {
     return data;
   }
 );
+
+export const fetchFavoriteCards = createAsyncThunk<TCard[], undefined, {
+  dispatch: typeof store.dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('favorite/fetchCards',
+  async (_arg, {extra: api}) => {
+    const {data} = await api.get<TCard[]>(APIRoute.FavoriteCards);
+    return data;
+  }
+);
+
+export const changeFavoriteStatus = createAsyncThunk<TOffer, {offerId: string; status: number}, {
+  dispatch: typeof store.dispatch;
+  state: State;
+  extra: AxiosInstance;
+}>('favorite/changeStatus',
+  async ({offerId, status}, {extra: api}) => {
+    const {data} = await api.post<TOffer>(`${APIRoute.FavoriteCards}/${offerId}/${status}`);
+    return data;
+  }
+);

@@ -24,7 +24,7 @@ const ReviewItem = memo(function ReviewItem({review}: {review: TReview}): JSX.El
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={date}>{date}</time>
+        <time className="reviews__time" dateTime={date}>{new Date(date).toLocaleString('en-US', { month: 'long', year: 'numeric' })}</time>
       </div>
     </li>
   );
