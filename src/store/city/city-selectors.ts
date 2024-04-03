@@ -1,4 +1,4 @@
 import { State } from '..';
 import { CITIES, NameSpace } from '../../const';
 
-export const getCity = (state: State): typeof CITIES[number] => state[NameSpace.City].city;
+export const getCity = (state: Pick<State, NameSpace.City>): typeof CITIES[number] => state[NameSpace.City].city;
