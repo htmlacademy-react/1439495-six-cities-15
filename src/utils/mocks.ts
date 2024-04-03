@@ -1,6 +1,14 @@
 import { name, internet, lorem, date } from 'faker';
 import { TCard, TLoggedUser, TOffer, TReview } from '../types/types';
 import { CITIES } from '../const';
+import { ThunkDispatch } from 'redux-thunk';
+import { State } from '../store';
+import { createAPI } from '../services/api';
+import { Action } from 'redux';
+
+export type AppThunkDispatch = ThunkDispatch<State, ReturnType<typeof createAPI>, Action>;
+
+export const extractActionsTypes = (actions: Action<string>[]) => actions.map(({ type }) => type);
 
 export const makeFakeUserInfo = (): TLoggedUser => ({
   name: name.title(),
