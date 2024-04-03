@@ -10,7 +10,7 @@ type CardProps = {
 }
 
 // eslint-disable-next-line prefer-arrow-callback
-const PremiumBadgeForCard = memo(function PremiumBadgeForCard(): JSX.Element {
+export const PremiumBadgeForCard = memo(function PremiumBadgeForCard(): JSX.Element {
   return (
     <div className="place-card__mark">
       <span>Premium</span>

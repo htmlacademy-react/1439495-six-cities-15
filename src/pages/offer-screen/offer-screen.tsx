@@ -94,7 +94,7 @@ function OfferScreen(): JSX.Element {
 
   return (
     <main className="page__main page__main--offer">
-      <section className="offer">
+      <section className="offer" data-testid="Offer Page">
         <ImagesList images={images}/>
         <div className="offer__container container">
           <div className="offer__wrapper">

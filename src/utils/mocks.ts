@@ -1,6 +1,6 @@
 import { name, internet, lorem, date } from 'faker';
 import { TCard, TLoggedUser, TOffer, TReview } from '../types/types';
-import { CITIES } from '../const';
+import { AuthorizationStatus, CITIES, SortingOptions } from '../const';
 import { ThunkDispatch } from 'redux-thunk';
 import { State } from '../store';
 import { createAPI } from '../services/api';
@@ -72,4 +72,43 @@ export const makeFakeComment = (): TReview => ({
   },
   comment: lorem.text(),
   rating: 3,
+});
+
+export const makeFakeStore = (initialState?: Partial<State>): State => ({
+  CARDS: {
+    cards: {
+      data: [],
+      isLoading: false,
+      isError: false
+    },
+    sortOption: SortingOptions.POPULAR
+  },
+  CITY: {
+    city: CITIES[0]
+  },
+  USER: {
+    authorizationStatus: AuthorizationStatus.NoAuth,
+    isAuthError: false,
+    userInfo: null,
+  },
+  OFFER: {
+    offer: {
+      offerInfo: null,
+      nearbyCards: [],
+      comments: [],
+      isLoading: false,
+      isError: false,
+      isPostReviewError: false,
+      isPostCommentLoading: false
+    }
+  },
+  FAVORITE: {
+    favoriteCards: {
+      data: [],
+      isLoading: false,
+      isError: false,
+      isLoadingChangeStatus: false
+    },
+  },
+  ...initialState ?? {},
 });

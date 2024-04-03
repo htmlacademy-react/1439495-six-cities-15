@@ -32,7 +32,7 @@ function LoginScreen(): JSX.Element {
   return (
     <main className="page__main page__main--login">
       <div className="page__login-container container">
-        <section className="login">
+        <section className="login" data-testid="Login Page">
           <h1 className="login__title">Sign in</h1>
           <form className="login__form form" action="#" method="post" onSubmit={handleSubmitLoginForm}>
             <div className="login__input-wrapper form__input-wrapper">
