@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import MainScreen from '../../pages/main-screen/main-screen.tsx';
 import { AppRoutes } from '../../const.ts';
@@ -20,7 +20,7 @@ function App(): JSX.Element {
   }
 
   return (
-    <BrowserRouter>
+    <>
       <ScrollToTop />
       <Routes>
         <Route path={AppRoutes.Main} element={<Layout />}>
@@ -45,7 +45,7 @@ function App(): JSX.Element {
         </Route>
         <Route path='*' element={<NotFoundScreen />} />
       </Routes>
-    </BrowserRouter>
+    </>
   );
 }
 

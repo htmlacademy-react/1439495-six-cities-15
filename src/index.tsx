@@ -6,6 +6,7 @@ import { Provider } from 'react-redux';
 import { store } from './store';
 import 'react-toastify/dist/ReactToastify.css';
 import { checkAuthStatus, fetchCards, fetchFavoriteCards } from './store/api-actions';
+import { BrowserRouter } from 'react-router-dom';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -23,7 +24,9 @@ root.render(
   <React.StrictMode>
     <Provider store={store}>
       <ToastContainer />
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>
     </Provider>
   </React.StrictMode>
 );
