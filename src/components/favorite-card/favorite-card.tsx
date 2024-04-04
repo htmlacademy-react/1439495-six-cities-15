@@ -9,13 +9,15 @@ type TFavoriteCardProps = {
 
 // eslint-disable-next-line prefer-arrow-callback
 const FavoriteCard = memo(function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
-  const {previewImage, price, type, title, id, rating, isFavorite} = card;
+  const {previewImage, price, type, title, id, rating, isFavorite, isPremium} = card;
 
   return (
     <article className="favorites__card place-card">
-      <div className="place-card__mark">
-        <span>Premium</span>
-      </div>
+      {isPremium && (
+        <div className="place-card__mark">
+          <span>Premium</span>
+        </div>
+      )}
       <div className="favorites__image-wrapper place-card__image-wrapper">
         <Link to={`/offer/${id}`}>
           <img className="place-card__image" src={previewImage} width="150" height="110" alt="Place image" />

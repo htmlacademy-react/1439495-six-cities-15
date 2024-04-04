@@ -37,6 +37,7 @@ const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, classNa
       type="button"
       onClick={handleBtnClick}
       disabled={isLoading}
+      data-testid='bookmark'
     >
       <svg className={`${className}__bookmark-icon`} width={className === 'offer' ? 31 : 18} height={className === 'offer' ? 33 : 19}>
         <use xlinkHref="#icon-bookmark"></use>

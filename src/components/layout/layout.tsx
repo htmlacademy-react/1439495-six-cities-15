@@ -53,7 +53,7 @@ function Layout(): JSX.Element {
   };
 
   return (
-    <div className={mainClassName}>
+    <div className={mainClassName} data-testid='layout-test'>
       <header className="header">
         <div className="container">
           <div className="header__wrapper">
