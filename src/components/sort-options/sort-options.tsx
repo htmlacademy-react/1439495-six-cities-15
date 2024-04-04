@@ -13,7 +13,7 @@ type SortOptionsProps = {
 }
 
 // eslint-disable-next-line prefer-arrow-callback
-const OptionItem = memo(function OptionItem({name}: OptionItemProps): JSX.Element {
+export const OptionItem = memo(function OptionItem({name}: OptionItemProps): JSX.Element {
   const activeSort = useAppSelector(getActiveSort);
   const dispatch = useAppDispatch();
 
@@ -29,7 +29,7 @@ const OptionItem = memo(function OptionItem({name}: OptionItemProps): JSX.Elemen
 // eslint-disable-next-line prefer-arrow-callback
 const SortOptions = memo(function SortOptions({isOpenForm}: SortOptionsProps): JSX.Element {
   return (
-    <ul className={`places__options places__options--custom ${isOpenForm && 'places__options--opened'}`}>
+    <ul className={`places__options places__options--custom ${isOpenForm && 'places__options--opened'}`} data-testid='sort-options'>
       {Object.values(SortingOptions).map((name) => <OptionItem name={name} key={name} />)}
     </ul>
   );

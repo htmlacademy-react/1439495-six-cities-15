@@ -34,7 +34,7 @@ function MainScreen(): JSX.Element {
   const handleSelectActiveCard = useCallback((card?: TCard) => setActiveCard(card), []);
 
   return (
-    <main className={`page__main page__main--index ${cardsInActiveCity.length === 0 && 'page__main--index-empty'}`}>
+    <main className={`page__main page__main--index ${cardsInActiveCity.length === 0 && 'page__main--index-empty'}`} data-testid='main-screen'>
       <h1 className="visually-hidden">Cities</h1>
       <div className="tabs">
         <section className="locations container">

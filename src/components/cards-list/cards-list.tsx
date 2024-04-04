@@ -12,7 +12,7 @@ type CardsListProps = {
 const CardsList = memo(function CardsList({cards, className, onMouseHover}: CardsListProps): JSX.Element {
 
   return (
-    <div className={className}>
+    <div className={className} data-testid='cards-list'>
       {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} className={className.includes('near-places') ? 'near-places' : 'cities'} />)}
     </div>
   );

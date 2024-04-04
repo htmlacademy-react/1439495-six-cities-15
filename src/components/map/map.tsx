@@ -50,7 +50,7 @@ function Map({className = 'cities__map', cards, activeCard, city}: MapProps): JS
   }, [map, cards, activeCard, city]);
 
   return (
-    <section className={`${className} map`} ref={mapRef}></section>
+    <section className={`${className} map`} ref={mapRef} data-testid='map'></section>
   );
 }
 
