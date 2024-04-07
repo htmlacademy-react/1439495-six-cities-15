@@ -9,17 +9,15 @@ type CardProps = {
   className?: string;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-export const PremiumBadgeForCard = memo(function PremiumBadgeForCard(): JSX.Element {
-  return (
-    <div className="place-card__mark">
-      <span>Premium</span>
-    </div>
-  );
-});
+export const PremiumBadgeForCard = memo((): JSX.Element => (
+  <div className="place-card__mark">
+    <span>Premium</span>
+  </div>
+));
 
-// eslint-disable-next-line prefer-arrow-callback
-const Card = memo(function Card({card, onMouseHover, className = 'cities'}: CardProps): JSX.Element {
+PremiumBadgeForCard.displayName = 'PremiumBadgeForCard';
+
+const Card = memo(({card, onMouseHover, className = 'cities'}: CardProps): JSX.Element => {
   const {id, title, type, price, isPremium, isFavorite, previewImage, rating} = card;
 
   const handleMouseEnter = () => {
@@ -64,5 +62,7 @@ const Card = memo(function Card({card, onMouseHover, className = 'cities'}: Card
     </article>
   );
 });
+
+Card.displayName = 'Card';
 
 export default Card;

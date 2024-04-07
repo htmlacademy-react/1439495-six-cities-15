@@ -12,15 +12,15 @@ type BookmarkButtonProps = {
   isFavorite: boolean;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, className = 'place-card'}: BookmarkButtonProps): JSX.Element {
+
+const BookmarkButton = memo(({isFavorite, cardId, className = 'place-card'}: BookmarkButtonProps): JSX.Element => {
 
   const authorizationStatus = useAppSelector(getAuthorizationStatus);
   const isLoading = useAppSelector(getChangeFavoriteLoadingStatus);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
 
-  const handleBtnClick = () => {
+  const handleButtonClick = () => {
     if (authorizationStatus !== AuthorizationStatus.Auth) {
       navigate(AppRoutes.Login);
       return;
@@ -35,7 +35,7 @@ const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, classNa
     <button
       className={`${className}__bookmark-button button ${isFavorite && `${className}__bookmark-button--active`}`}
       type="button"
-      onClick={handleBtnClick}
+      onClick={handleButtonClick}
       disabled={isLoading}
       data-testid='bookmark'
     >
@@ -46,5 +46,7 @@ const BookmarkButton = memo(function BookmarkButton({isFavorite, cardId, classNa
     </button>
   );
 });
+
+BookmarkButton.displayName = 'BookmarkButton';
 
 export default BookmarkButton;

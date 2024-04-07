@@ -13,39 +13,35 @@ import { getAuthorizationStatus } from '../../store/user/user-selectors.ts';
 import { getNearbyCards, getOfferComments, getOfferErrorStatus, getOfferInfo, getOfferLoadingStatus } from '../../store/offer/offer-selectors.ts';
 import BookmarkButton from '../../components/bookmark-button/bookmark-button.tsx';
 
-// eslint-disable-next-line prefer-arrow-callback
-const ImageItem = memo(function ImageItem({image}: {image: string}): JSX.Element {
-  return (
-    <div className="offer__image-wrapper">
-      <img className="offer__image" src={image} alt="Photo studio" />
+const ImageItem = memo(({image}: {image: string}): JSX.Element => (
+  <div className="offer__image-wrapper">
+    <img className="offer__image" src={image} alt="Photo studio" />
+  </div>
+));
+
+ImageItem.displayName = 'ImageItem';
+
+const ImagesList = memo(({images}: {images: string[]}): JSX.Element => (
+  <div className="offer__gallery-container container">
+    <div className="offer__gallery">
+      {images.slice(0, 6).map((image) => <ImageItem image={image} key={image} />)}
     </div>
-  );
-});
+  </div>
+));
 
-// eslint-disable-next-line prefer-arrow-callback
-const ImagesList = memo(function ImagesList({images}: {images: string[]}): JSX.Element {
-  return (
-    <div className="offer__gallery-container container">
-      <div className="offer__gallery">
-        {images.slice(0, 6).map((image) => <ImageItem image={image} key={image} />)}
-      </div>
-    </div>
-  );
-});
+ImagesList.displayName = 'ImagesList';
 
-// eslint-disable-next-line prefer-arrow-callback
-const FeatureItem = memo(function FeatureItem({feature}: {feature: string}): JSX.Element {
-  return (<li className="offer__inside-item">{feature}</li>);
-});
+const FeatureItem = memo(({feature}: {feature: string}): JSX.Element => (<li className="offer__inside-item">{feature}</li>));
 
-// eslint-disable-next-line prefer-arrow-callback
-const FeaturesInsideList = memo(function FeaturesInsideList({features}: {features: string[]}): JSX.Element {
-  return (
-    <ul className="offer__inside-list">
-      {features.map((feature) => <FeatureItem feature={feature} key={feature}/>)}
-    </ul>
-  );
-});
+FeatureItem.displayName = 'FeatureItem';
+
+const FeaturesInsideList = memo(({features}: {features: string[]}): JSX.Element => (
+  <ul className="offer__inside-list">
+    {features.map((feature) => <FeatureItem feature={feature} key={feature}/>)}
+  </ul>
+));
+
+FeaturesInsideList.displayName = 'FeaturesInsideList';
 
 function OfferScreen(): JSX.Element {
   const { id } = useParams();
@@ -88,7 +84,7 @@ function OfferScreen(): JSX.Element {
 
   const {title, type, price, images, description, bedrooms, isPremium, isFavorite, goods, maxAdults, rating, id: offerId} = offer;
 
-  const sortedComments = offerComments.slice()
+  const commentsToOffer = offerComments.slice()
     .sort((first, second) => new Date(second.date).getTime() - new Date(first.date).getTime())
     .slice(0, 10);
 
@@ -144,7 +140,7 @@ function OfferScreen(): JSX.Element {
             </div>
             <section className="offer__reviews reviews">
               <h2 className="reviews__title">Reviews &middot; <span className="reviews__amount">{offerComments.length}</span></h2>
-              <ReviewsList reviews={sortedComments}/>
+              <ReviewsList reviews={commentsToOffer}/>
               {authorizationStatus === AuthorizationStatus.Auth && <ReviewForm />}
             </section>
           </div>

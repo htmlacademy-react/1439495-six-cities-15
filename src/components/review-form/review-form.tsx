@@ -40,8 +40,7 @@ function InputItem({value, title, checkedValue, disabled, onInputChange}: InputI
   );
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-const ReviewForm = memo(function ReviewForm(): JSX.Element {
+const ReviewForm = memo((): JSX.Element => {
   const { id: offerId } = useParams();
   const isPostReviewLoading = useAppSelector(getPostReviewLoadingStatus);
   const dispatch = useAppDispatch();
@@ -101,5 +100,7 @@ const ReviewForm = memo(function ReviewForm(): JSX.Element {
     </form>
   );
 });
+
+ReviewForm.displayName = 'ReviewForm';
 
 export default ReviewForm;

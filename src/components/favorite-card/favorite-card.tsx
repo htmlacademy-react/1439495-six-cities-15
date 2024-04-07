@@ -7,8 +7,7 @@ type TFavoriteCardProps = {
   card: TCard;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-const FavoriteCard = memo(function FavoriteCard({card}: TFavoriteCardProps): JSX.Element {
+const FavoriteCard = memo(({card}: TFavoriteCardProps): JSX.Element => {
   const {previewImage, price, type, title, id, rating, isFavorite, isPremium} = card;
 
   return (
@@ -45,5 +44,7 @@ const FavoriteCard = memo(function FavoriteCard({card}: TFavoriteCardProps): JSX
     </article>
   );
 });
+
+FavoriteCard.displayName = 'FavoriteCard';
 
 export default FavoriteCard;

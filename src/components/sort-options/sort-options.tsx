@@ -12,8 +12,7 @@ type SortOptionsProps = {
   isOpenForm: boolean;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-export const OptionItem = memo(function OptionItem({name}: OptionItemProps): JSX.Element {
+export const OptionItem = memo(({name}: OptionItemProps): JSX.Element => {
   const activeSort = useAppSelector(getActiveSort);
   const dispatch = useAppDispatch();
 
@@ -26,13 +25,14 @@ export const OptionItem = memo(function OptionItem({name}: OptionItemProps): JSX
   );
 });
 
-// eslint-disable-next-line prefer-arrow-callback
-const SortOptions = memo(function SortOptions({isOpenForm}: SortOptionsProps): JSX.Element {
-  return (
-    <ul className={`places__options places__options--custom ${isOpenForm && 'places__options--opened'}`} data-testid='sort-options'>
-      {Object.values(SortingOptions).map((name) => <OptionItem name={name} key={name} />)}
-    </ul>
-  );
-});
+OptionItem.displayName = 'OptionItem';
+
+const SortOptions = memo(({isOpenForm}: SortOptionsProps): JSX.Element => (
+  <ul className={`places__options places__options--custom ${isOpenForm && 'places__options--opened'}`} data-testid='sort-options'>
+    {Object.values(SortingOptions).map((name) => <OptionItem name={name} key={name} />)}
+  </ul>
+));
+
+SortOptions.displayName = 'SortOptions';
 
 export default SortOptions;

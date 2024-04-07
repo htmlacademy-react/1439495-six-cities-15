@@ -9,8 +9,7 @@ type CityItemProps = {
   activeCity?: string;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-const CityItem = memo(function CityItem({city, activeCity}: CityItemProps): JSX.Element {
+const CityItem = memo(({city, activeCity}: CityItemProps): JSX.Element => {
   const dispatch = useAppDispatch();
 
   const handleCityClick = () => {
@@ -24,5 +23,7 @@ const CityItem = memo(function CityItem({city, activeCity}: CityItemProps): JSX.
     </Link>
   );
 });
+
+CityItem.displayName = 'CityItem';
 
 export default CityItem;
