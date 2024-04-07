@@ -8,14 +8,12 @@ type CardsListProps = {
   onMouseHover?: (arg?: TCard) => void;
 }
 
-// eslint-disable-next-line prefer-arrow-callback
-const CardsList = memo(function CardsList({cards, className, onMouseHover}: CardsListProps): JSX.Element {
+const CardsList = memo(({cards, className, onMouseHover}: CardsListProps): JSX.Element => (
+  <div className={className} data-testid='cards-list'>
+    {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} className={className.includes('near-places') ? 'near-places' : 'cities'} />)}
+  </div>
+));
 
-  return (
-    <div className={className} data-testid='cards-list'>
-      {cards.map((card) => <Card card={card} key={card.id} onMouseHover={onMouseHover} className={className.includes('near-places') ? 'near-places' : 'cities'} />)}
-    </div>
-  );
-});
+CardsList.displayName = 'CardsList';
 
 export default CardsList;

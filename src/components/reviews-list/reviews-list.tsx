@@ -1,9 +1,9 @@
 import { memo } from 'react';
 import { TReview } from '../../types/types';
 
-// eslint-disable-next-line prefer-arrow-callback
-export const ReviewItem = memo(function ReviewItem({review}: {review: TReview}): JSX.Element {
+export const ReviewItem = memo(({review}: {review: TReview}): JSX.Element => {
   const {date, user, comment, rating} = review;
+  const formatDate = new Date(date).toLocaleString('en-US', { month: 'long', year: 'numeric' });
   return (
     <li className="reviews__item" data-testid='review-item'>
       <div className="reviews__user user">
@@ -24,19 +24,20 @@ export const ReviewItem = memo(function ReviewItem({review}: {review: TReview}):
         <p className="reviews__text">
           {comment}
         </p>
-        <time className="reviews__time" dateTime={date}>{new Date(date).toLocaleString('en-US', { month: 'long', year: 'numeric' })}</time>
+        <time className="reviews__time" dateTime={date}>{formatDate}</time>
       </div>
     </li>
   );
 });
 
-// eslint-disable-next-line prefer-arrow-callback
-const ReviewsList = memo(function ReviewsList({reviews}: {reviews: TReview[]}): JSX.Element {
-  return (
-    <ul className="reviews__list" data-testid='review-list'>
-      {reviews.map((review) => <ReviewItem review={review} key={review.id}/>)}
-    </ul>
-  );
-});
+ReviewItem.displayName = 'ReviewItem';
+
+const ReviewsList = memo(({reviews}: {reviews: TReview[]}): JSX.Element => (
+  <ul className="reviews__list" data-testid='review-list'>
+    {reviews.map((review) => <ReviewItem review={review} key={review.id}/>)}
+  </ul>
+));
+
+ReviewsList.displayName = 'ReviewsList';
 
 export default ReviewsList;

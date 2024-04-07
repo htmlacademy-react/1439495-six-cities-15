@@ -3,8 +3,7 @@ import SortOptions from '../../components/sort-options/sort-options.tsx';
 import { useAppSelector } from '../../hooks/store-hooks.ts';
 import { getActiveSort } from '../../store/cards/cards-selectors.ts';
 
-// eslint-disable-next-line prefer-arrow-callback
-const SortForm = memo(function SortForm(): JSX.Element {
+const SortForm = memo((): JSX.Element => {
   const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
   const activeSort = useAppSelector(getActiveSort);
 
@@ -25,5 +24,7 @@ const SortForm = memo(function SortForm(): JSX.Element {
     </form>
   );
 });
+
+SortForm.displayName = 'SortForm';
 
 export default SortForm;
